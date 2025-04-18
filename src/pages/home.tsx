@@ -1,8 +1,9 @@
 import React from "react";
 import './home.css';
-import logo from "../content/logo.png"
-import banner from "../content/banner.png"
+import logo from "../content/logo.png";
+import banner from "../content/banner.png";
 import FAQ from '../components/FAQ/FAQ';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
     return (
@@ -13,7 +14,8 @@ export default function Home() {
                 <a className="header-topics" href="">SOBRE</a>
                 <a className="header-topics" href="#funcionalidades">FUNCIONALIDADES</a>
                 <a className="header-topics" href="">DÚVIDAS</a>
-                <a className="login-button" href="">LOGIN</a>
+                <Link className="login-button" to="/login_paciente">LOGIN PACIENTE</Link>
+                <Link className="login-button" to="/login_nutricionista">LOGIN NUTRICIONISTA</Link>
             </div>
             <div className="banner-home">
                 <img src={banner} alt="Banner" className="banner-home-img"/>
