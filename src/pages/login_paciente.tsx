@@ -20,7 +20,7 @@ export default function LoginPaciente() {
           <label htmlFor="token">TOKEN</label>
           <input id="token" type="text"/>
         </div>
-        <button className="botao-login">LOGIN</button>
+        <Link to="/perfil_paciente"><button className="botao-login">LOGIN</button></Link>
 
         <div className="texto-token">
             <span>Não possui token?</span>
