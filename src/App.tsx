@@ -17,7 +17,7 @@ export default function App() {
           <Route path="/login_nutricionista" element={<LoginNutricionista />} />
           <Route path="/perfil_paciente" element={<PerfilPaciente />} />
           <Route path="/perfil_nutricionista" element={<PerfilNutricionista />} />
-          <Route path="/minha_dieta_paciente" element={<MinhaDietaPaciente />} />
+          <Route path="/minhaDieta_paciente" element={<MinhaDietaPaciente />} />
         </Routes>
     </Router>
   );
