@@ -44,8 +44,8 @@ a{
 }
 .home-titulo{
     color: black;
-    font-size: 40px;
-    width: 50%;
+    font-size: 3rem;
+    width: 40%;
     margin: 0 auto;
     padding: 4vh;
     margin-top: 10vh;
@@ -55,13 +55,17 @@ a{
     width: 70%;
     margin: 0 auto;
     padding: 1vh;
+    font-size: 1.25rem;
 }
-.funcionalidades-home{
-    text-align: center;
+.funcionalidades-home {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .cards-func-home{
     display: flex;
     padding: 0vh 10vh 10vh 10vh;
+    justify-content: space-between;
     gap: 5vh;
 }
 .card-home{
@@ -69,6 +73,41 @@ a{
     background-color: #008D14 ;
     border-radius: 10px;
     padding: 10px;
+    flex: 1;
+}
+.bloco-funcionalidade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 100px 0; 
+  gap: 60px; 
+}
+.bloco-funcionalidade.invertido {
+  flex-direction: row-reverse;
+}
+.func-texto {
+  flex: 1;
+  padding: 10px 20px;
+}
+.func-img {
+  flex: 1;
+}
+.func-texto h3 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: black;
+}
+.func-texto p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: black;
+}
+.func-img img {
+  width: 100%;
+  max-width: 700px; 
+  border-radius: 10px; 
+  object-fit: cover;
+  margin: 0 auto;
 }
 .titulo-card-home{
     color: white;

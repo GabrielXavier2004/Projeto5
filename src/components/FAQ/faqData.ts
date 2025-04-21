@@ -5,33 +5,33 @@ export type FAQ = {
 
 export const faqs: FAQ[] = [
   {
-    question: 'Como funciona o software para nutricionistas?',
+    question: ' O que é o NutriHub e para quem ele é indicado?',
     answer:
-      'O software permite agendamento, controle alimentar, inteligência artificial para sugestão de cardápios e muito mais.',
+      'O NutriHub é um software completo desenvolvido especialmente para nutricionistas. Ele oferece ferramentas inteligentes que otimizam sua rotina profissional, desde o atendimento até o acompanhamento dos pacientes. Ideal para consultórios, clínicas ou atendimentos online.',
   },
   {
-    question: 'É necessário estar conectado à internet?',
+    question: 'Preciso de conhecimento técnico para usar o sistema?',
     answer:
-      'Sim, o software é baseado na nuvem para garantir acesso em qualquer lugar com conexão.',
+      'Não! O NutriHub foi pensado para ser intuitivo e fácil de usar, mesmo para quem não tem familiaridade com tecnologia. Você começa a usar em poucos minutos, com uma curva de aprendizado super leve.',
   },
   {
-    question: 'Posso testar antes de assinar?',
+    question: 'Posso personalizar os planos alimentares?',
     answer:
-      'Sim! Oferecemos um teste gratuito de 7 dias com todas as funcionalidades liberadas.',
+      'Sim! A inteligência artificial do NutriHub sugere planos baseados nos dados do paciente, mas você tem total liberdade para editar, ajustar porções, trocar alimentos e montar cardápios do seu jeito.',
   },
   {
-    question: 'Como funciona o software para nutricionistas?',
+    question: 'Meus dados e os dados dos meus pacientes estão seguros?',
     answer:
-      'O software permite agendamento, controle alimentar, inteligência artificial para sugestão de cardápios e muito mais.',
+      'Com certeza. Utilizamos criptografia e práticas avançadas de segurança para garantir que todas as informações estejam protegidas, em conformidade com a LGPD (Lei Geral de Proteção de Dados).',
   },
   {
-    question: 'É necessário estar conectado à internet?',
+    question: 'O NutriHub funciona no celular?',
     answer:
-      'Sim, o software é baseado na nuvem para garantir acesso em qualquer lugar com conexão.',
+      'Sim, o sistema é 100% online e responsivo, funcionando perfeitamente em celulares, tablets e computadores. Você pode acessar de onde estiver, a qualquer momento.',
   },
   {
-    question: 'Posso testar antes de assinar?',
+    question: 'Tem período de teste ou plano gratuito?',
     answer:
-      'Sim! Oferecemos um teste gratuito de 7 dias com todas as funcionalidades liberadas.',
+      'Sim! Oferecemos um período de teste gratuito para você explorar todas as funcionalidades do NutriHub antes de decidir. Sem compromisso e sem precisar cadastrar cartão.',
   },
 ];
