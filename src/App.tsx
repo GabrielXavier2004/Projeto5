@@ -5,6 +5,7 @@ import LoginPaciente from "./pages/login_paciente";
 import LoginNutricionista from "./pages/login_nutricionista"
 import PerfilPaciente from "./pages/perfil_paciente";
 import PerfilNutricionista from "./pages/perfil_nutricionista";
+import MinhaDietaPaciente from "./pages/minhaDieta_paciente";
 
 export default function App() {
 
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/login_nutricionista" element={<LoginNutricionista />} />
           <Route path="/perfil_paciente" element={<PerfilPaciente />} />
           <Route path="/perfil_nutricionista" element={<PerfilNutricionista />} />
+          <Route path="/minhaDieta_paciente" element={<MinhaDietaPaciente />} />
         </Routes>
     </Router>
   );
