@@ -50,11 +50,10 @@
     color: #333;
     margin-bottom: 0.5vh;
     display: block;
-    margin-left: 9vh;
 }
 
 .input-group input {
-    width: 25vh;
+    width: 100%;
     padding: 10px;
     margin-top: 0.3rem;
     font-size: 1rem;
@@ -63,7 +62,6 @@
     box-sizing: border-box;
     background-color: #65D775;
     color: #333;
-    margin-left: 9vh;
 }
 
 input[type="text"]::placeholder {
@@ -88,8 +86,7 @@ input[type="text"]::placeholder {
 }
 
 .esqueceu-senha {
-    font-size: 0.7rem;
-    margin-left: 9vh;
+    font-size: 0.8rem;
     margin-top: 0.4rem;
     display: flex;
     gap: 0.3rem;
@@ -97,13 +94,24 @@ input[type="text"]::placeholder {
 }
 
 .botao-clique-aqui2 {
+    align-items: center;
+    justify-content: center;
     background-color: transparent;
     border: none;
     color: #000000;
     font-weight: bold;
     cursor: pointer;
-    padding: 0;
-    font-size: 0.7rem;
+    margin-bottom: 3px;
+    font-size: 0.8rem;
     line-height: 1.5;
     transform: translateY(1px);
+}
+
+.nao-cadastro {
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    justify-content: center;
 }

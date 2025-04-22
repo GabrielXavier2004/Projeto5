@@ -6,6 +6,7 @@ import LoginNutricionista from "./pages/login_nutricionista"
 import PerfilPaciente from "./pages/perfil_paciente";
 import PerfilNutricionista from "./pages/perfil_nutricionista";
 import MinhaDietaPaciente from "./pages/minhaDieta_paciente";
+import Sem_Token from "./pages/sem_token";
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/perfil_paciente" element={<PerfilPaciente />} />
           <Route path="/perfil_nutricionista" element={<PerfilNutricionista />} />
           <Route path="/minhaDieta_paciente" element={<MinhaDietaPaciente />} />
+          <Route path="/token" element={<Sem_Token />} />
         </Routes>
     </Router>
   );

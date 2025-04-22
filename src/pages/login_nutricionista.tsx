@@ -29,7 +29,7 @@ export default function LoginNutricionista() {
 
         <Link to="/perfil_nutricionista"><button className="botao-login">LOGIN</button></Link>
 
-        <div className="esqueceu-senha">
+        <div className="nao-cadastro">
             <span>Não possui cadastro?</span>
             <Link to="/" className="botao-clique-aqui2">Clique Aqui.</Link>
           </div>

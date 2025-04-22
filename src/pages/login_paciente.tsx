@@ -18,13 +18,13 @@ export default function LoginPaciente() {
         </div>
         <div className="input-group">
           <label htmlFor="token">TOKEN</label>
-          <input id="token" type="text"/>
+          <input id="token" type="password"/>
         </div>
         <Link to="/perfil_paciente"><button className="botao-login">LOGIN</button></Link>
 
         <div className="texto-token">
             <span>Não possui token?</span>
-            <Link to="/" className="botao-clique-aqui">Clique Aqui.</Link>
+            <Link to="/token" className="botao-clique-aqui">Clique Aqui.</Link>
           </div>
       </div>
     </div>

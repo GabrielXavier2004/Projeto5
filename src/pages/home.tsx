@@ -29,20 +29,6 @@ export default function Home() {
             </div>
             <div className="funcionalidades-home" id="funcionalidades">
                 <p className="home-titulo">Funcionalidades</p>
-                {/* <div className="cards-func-home">
-                    <div className="card-home">
-                        <p className="titulo-card-home">Gestão Completa de Pacientes</p>
-                        <p className="texto-card-home">Centralize todas as informações clínicas dos seus pacientes em um só lugar. Acompanhe anamneses, histórico alimentar, avaliações, objetivos e evolução de forma prática e organizada. Esqueça papéis e planilhas: tenha tudo acessível com poucos cliques, de maneira segura e intuitiva.</p>
-                    </div>
-                    <div className="card-home">
-                        <p className="titulo-card-home">Geração de Planos Alimentares com IA</p>
-                        <p className="texto-card-home">Gere planos personalizados em minutos com o apoio da IA. O sistema analisa os dados do paciente e sugere refeições equilibradas, considerando restrições, metas e preferências. Você ainda pode ajustar os planos com facilidade, tornando o atendimento mais ágil e profissional.</p>
-                    </div>
-                    <div className="card-home">
-                        <p className="titulo-card-home">Automação de Agendamentos e Lembretes</p>
-                        <p className="texto-card-home">Mantenha sua agenda organizada e reduza faltas com o envio automático de lembretes por e-mail ou WhatsApp. Com a agenda integrada do NutriHub, você acompanha seus atendimentos com mais clareza, praticidade e controle.</p>
-                    </div>
-                </div> */}
                 <div className="bloco-funcionalidade">
                     <div className="func-img">
                     <img src={paciente_home} alt="Gestão de Pacientes" />

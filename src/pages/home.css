@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 7%;
+    gap: 5%;
     padding: 1%;
     position: fixed;
     top: 0%;
@@ -45,7 +45,7 @@ a{
 .home-titulo{
     color: black;
     font-size: 3rem;
-    width: 40%;
+    width: 42%;
     margin: 0 auto;
     padding: 4vh;
     margin-top: 10vh;
@@ -58,9 +58,9 @@ a{
     font-size: 1.25rem;
 }
 .funcionalidades-home {
-  padding: 60px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  text-align: center;
 }
 .cards-func-home{
     display: flex;
