@@ -3,8 +3,9 @@ import './sem_token.css';
 import { Link } from "react-router-dom";
 import logo from "../content/logo.png"
 import paciente_home from '../content/paciente_home.jpg'
-import plano_alimentar from '../content/plano_alimetar.jpg'
-import receitas from '../content/receitas.jpg'
+import cadastro from '../content/cadastro.jpg'
+import token from '../content/token.jpg'
+import acesso from '../content/acesso.jpg'
 
 export default function Sem_Token() {
     return (
@@ -28,31 +29,31 @@ export default function Sem_Token() {
                     <img src={paciente_home} alt="Gestão de Pacientes" />
                     </div>
                     <div className="func-texto">
-                    <h3>Fale com seu nutricionista sobre o NutriHub</h3>
+                    <h3>1. Fale com seu nutricionista sobre o NutriHub</h3>
                     </div>
                 </div>
                 <div className="bloco-funcionalidade invertido">
                     <div className="func-img">
-                    <img src={plano_alimentar} alt="Planos Alimentares com IA" />
+                    <img src={cadastro} alt="Planos Alimentares com IA" />
                     </div>
                     <div className="func-texto">
-                    <h3>Solicite que ele faça seu cadastro no sistema</h3>
+                    <h3>2. Solicite que ele faça seu cadastro no sistema</h3>
                     </div>
                 </div>
                 <div className="bloco-funcionalidade">
                     <div className="func-img">
-                    <img src={receitas} alt="Agendamento Inteligente" />
+                    <img src={token} alt="Agendamento Inteligente" />
                     </div>
                     <div className="func-texto">
-                    <h3>Ele enviará um token exclusivo para você</h3>
+                    <h3>3. Ele enviará um token exclusivo para você</h3>
                     </div>
                 </div>
                 <div className="bloco-funcionalidade invertido">
                     <div className="func-img">
-                    <img src={plano_alimentar} alt="Planos Alimentares com IA" />
+                    <img src={acesso} alt="Planos Alimentares com IA" />
                     </div>
                     <div className="func-texto">
-                    <h3>Use o token para acessar sua conta</h3>
+                    <h3>4. Use o token e o seu CPF para acessar sua conta</h3>
                     </div>
                 </div>
             </div>
