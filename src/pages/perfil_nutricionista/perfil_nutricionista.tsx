@@ -2,11 +2,11 @@ import React from "react";
 import './perfil_nutricionista.css';
 import { Link } from "react-router-dom";
 
-import userIcon from '../content/user_icon.png';
-import pacientesIcon from '../content/paciente_icon.png';
-import iaIcon from '../content/ia_icon.png';
-import agendaIcon from '../content/agenda_icon.png';
-import logo from "../content/logo.png";
+import userIcon from '../../content/user_icon.png';
+import pacientesIcon from '../../content/paciente_icon.png';
+import iaIcon from '../../content/ia_icon.png';
+import agendaIcon from '../../content/agenda_icon.png';
+import logo from "../../content/logo.png";
 
 export default function PerfilNutricionista() {
   return (

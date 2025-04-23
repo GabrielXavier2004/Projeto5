@@ -1,13 +1,13 @@
 import React from "react";
 import './perfil_paciente.css';
 import { Link } from "react-router-dom";
-import Header from '../components/headers/header_paciente';
+import Header from '../../components/headers/header_paciente';
 
-import userIcon from '../content/user_icon.png';
-import dietaIcon from '../content/dieta_icon.png';
-import iaIcon from '../content/ia_icon.png';
-import agendaIcon from '../content/agenda_icon.png';
-import logo from "../content/logo.png";
+import userIcon from '../../content/user_icon.png';
+import dietaIcon from '../../content/dieta_icon.png';
+import iaIcon from '../../content/ia_icon.png';
+import agendaIcon from '../../content/agenda_icon.png';
+import logo from "../../content/logo.png";
 
 export default function PerfilPaciente() {
   return (
@@ -26,7 +26,7 @@ export default function PerfilPaciente() {
             <img src={dietaIcon} alt="Minha Dieta" />
             <span>Minha Dieta</span>
           </Link>
-          <Link to="/ia_paciente" className="card">
+          <Link to="/anamnese" className="card">
             <img src={iaIcon} alt="IA" />
             <span>IA</span>
           </Link>

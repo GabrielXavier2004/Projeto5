@@ -1,6 +1,6 @@
 import React from "react";
 import './login_paciente.css';
-import bg from '../content/foto_fundo_login_paciente.png'; 
+import bg from '../../content/foto_fundo_login_paciente.png'; 
 import { Link } from "react-router-dom";
 
 export default function LoginPaciente() {

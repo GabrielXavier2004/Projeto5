@@ -1,7 +1,7 @@
 import React from "react";
 import './login_nutricionista.css';
 import { Link } from "react-router-dom";
-import bg2 from "../content/foto_fundo_login_nutricionista.png";
+import bg2 from "../../content/foto_fundo_login_nutricionista.png";
 
 export default function LoginNutricionista() {
   return (

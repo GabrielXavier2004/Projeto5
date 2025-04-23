@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import './minhaDieta_paciente.css'; 
-import Header from '../components/headers/header_paciente'; 
+import Header from '../../components/headers/header_paciente'; 
 
 export default function MinhaDietaPaciente() {
   return (

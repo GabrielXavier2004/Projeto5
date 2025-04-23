@@ -1,11 +1,11 @@
 import React from "react";
 import './home.css';
-import logo from "../content/logo.png";
-import banner from "../content/banner.png";
-import FAQ from '../components/FAQ/FAQ';
-import paciente_home from '../content/paciente_home.jpg'
-import plano_alimentar from '../content/plano_alimetar.jpg'
-import receitas from '../content/receitas.jpg'
+import logo from "../../content/logo.png";
+import banner from "../../content/banner.png";
+import FAQ from '../../components/FAQ/FAQ';
+import paciente_home from '../../content/paciente_home.jpg'
+import plano_alimentar from '../../content/plano_alimetar.jpg'
+import receitas from '../../content/receitas.jpg'
 import { Link } from 'react-router-dom';
 
 export default function Home() {

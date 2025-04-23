@@ -1,11 +1,11 @@
 import React from "react";
 import './sem_token.css';
 import { Link } from "react-router-dom";
-import logo from "../content/logo.png"
-import paciente_home from '../content/paciente_home.jpg'
-import cadastro from '../content/cadastro.jpg'
-import token from '../content/token.jpg'
-import acesso from '../content/acesso.jpg'
+import logo from "../../content/logo.png"
+import paciente_home from '../../content/paciente_home.jpg'
+import cadastro from '../../content/cadastro.jpg'
+import token from '../../content/token.jpg'
+import acesso from '../../content/acesso.jpg'
 
 export default function Sem_Token() {
     return (
