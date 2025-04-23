@@ -12,10 +12,10 @@ export default function Sem_Token() {
         <div className="container-token">
             <div className="header">
                 <img src={logo} alt="logo" className="logo"/>
-                <a className="header-topics" href="#">HOME</a>
-                <a className="header-topics" href="">SOBRE</a>
-                <a className="header-topics" href="#funcionalidades">FUNCIONALIDADES</a>
-                <a className="header-topics" href="">DÚVIDAS</a>
+                <Link className="header-topics" to="/">HOME</Link>
+                <Link className="header-topics" to="/">SOBRE</Link>
+                <Link className="header-topics" to="/">FUNCIONALIDADES</Link>
+                <Link className="header-topics" to="/">DÚVIDAS</Link>
                 <Link className="login-button" to="/login_paciente">LOGIN PACIENTE</Link>
                 <Link className="login-button" to="/login_nutricionista">LOGIN NUTRICIONISTA</Link>
             </div>
@@ -61,6 +61,15 @@ export default function Sem_Token() {
                 <h2>Ficou com alguma dúvida?</h2>
                 <p>Se você ainda não recebeu seu token ou está com dificuldades para acessar o sistema, estamos aqui para te ajudar!</p>
                 <p>Entre em contato com a nossa equipe de suporte e responderemos o mais rápido possível.</p>
+                <div className="canais-suporte">
+                    <h3>📞 Canais de Suporte</h3>
+                    <ul>
+                        <li><strong>WhatsApp:</strong> <a href="https://wa.me/SEUNUMERO" target="_blank" rel="noopener noreferrer">(11) 99999-9999</a></li>
+                        <li><strong>Email:</strong> <a href="mailto:suporte@nutrihub.com">suporte@nutrihub.com</a></li>
+                        <li><strong>Instagram:</strong> <a href="https://instagram.com/nutrihub" target="_blank" rel="noopener noreferrer">@nutrihub</a></li>
+                        <li><strong>Horário de atendimento:</strong> Segunda a sexta, das 9h às 18h</li>
+                    </ul>
+                </div>
             </div>
             <div className="footer-home">
                 <div className="footer-texto">

@@ -14,16 +14,16 @@ export default function Home() {
             <div className="header">
                 <img src={logo} alt="logo" className="logo"/>
                 <a className="header-topics" href="#">HOME</a>
-                <a className="header-topics" href="">SOBRE</a>
+                <a className="header-topics" href="#sobre">SOBRE</a>
                 <a className="header-topics" href="#funcionalidades">FUNCIONALIDADES</a>
-                <a className="header-topics" href="">DÚVIDAS</a>
+                <a className="header-topics" href="#duvidas">DÚVIDAS</a>
                 <Link className="login-button" to="/login_paciente">LOGIN PACIENTE</Link>
                 <Link className="login-button" to="/login_nutricionista">LOGIN NUTRICIONISTA</Link>
             </div>
             <div className="banner-home">
                 <img src={banner} alt="Banner" className="banner-home-img"/>
             </div>
-            <div className="sobre-home">
+            <div className="sobre-home" id="sobre">
                 <p className="home-titulo">NutriHub – Atendimento Nutricional com Eficiência e Tecnologia</p>
                 <p className="sobre-texto">Tudo o que você precisa para transformar sua rotina profissional está aqui. O NutriHub é um software completo e intuitivo, desenvolvido especialmente para nutricionistas que buscam mais do que organização: querem agilidade, precisão e excelência em cada atendimento. Com tecnologia de ponta e recursos baseados em inteligência artificial, ele automatiza processos, otimiza o tempo e coloca você no controle total da sua jornada profissional. NutriHub não apenas eleva o padrão do seu consultório — ele fideliza pacientes, gera valor ao seu trabalho e proporciona experiências que encantam. Mais do que um sistema: é a evolução da nutrição, pensada para o seu crescimento.</p>
             </div>
@@ -61,7 +61,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="duvidas-home">
+            <div className="duvidas-home" id="duvidas">
                 <p className="home-titulo">Dúvidas Frequentes</p>
                 <FAQ />
             </div>

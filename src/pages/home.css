@@ -210,3 +210,6 @@ a{
   border-top: 1px solid #E8E8E8;
   padding-left: 10vh;
 }
+#sobre, #funcionalidades, #duvidas{
+  scroll-margin-top: 80px; 
+}

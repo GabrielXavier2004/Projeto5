@@ -7,7 +7,7 @@
 .header-token{
     text-align: center;
     background-color: #65D775;
-    margin-top: 5%;
+    margin-top: 4.25%;
     padding: 2%;
     color: white;
     font-size: 1.25rem;
@@ -20,6 +20,37 @@
 .duvida-token{
     text-align: center;
     font-size: 1.25rem;
-    margin-bottom: 15vh;
+    margin-bottom: 10vh;
     margin-top: 15vh;
 }
+.canais-suporte {
+    margin-top: 24px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .canais-suporte h3 {
+    font-size: 1.25rem;
+  }
+  
+  .canais-suporte ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .canais-suporte li {
+    margin-bottom: 1%;
+    font-size: 1.25rem;
+    padding: 0.5%;
+  }
+  
+  .canais-suporte a {
+    color: #008D14;
+    text-decoration: none;
+  }
+  
+  .canais-suporte a:hover {
+    text-decoration: underline;
+  }
+  
