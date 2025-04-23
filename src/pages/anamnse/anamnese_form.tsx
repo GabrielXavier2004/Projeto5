@@ -1,96 +1,182 @@
-import { ChangeEvent, useState } from "react";
+import { useState, ChangeEvent } from "react";
 import "./anamnese_form.css";
 
 const etapas = [
-    "Dados Pessoais",
-    "Histórico de Saúde",
-    "Hábitos de Vida",
-    "Alimentação e Digestão",
-    "Frequência Alimentar",
-    "Rastreamento Metabólico"
-  ];
-  
-  export default function AnamneseForm() {
-    const [etapaAtual, setEtapaAtual] = useState(0);
-    const [formData, setFormData] = useState<Record<string, string>>({});
-  
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-  
-    const handleProximaEtapa = () => {
-      if (etapaAtual < etapas.length - 1) setEtapaAtual(etapaAtual + 1);
-    };
-  
-    const handleEtapaAnterior = () => {
-      if (etapaAtual > 0) setEtapaAtual(etapaAtual - 1);
-    };
-  
-    const renderEtapa = () => {
-      switch (etapaAtual) {
-        case 0:
-          return (
-            <div className="form-etapa">
-              <label>Nome completo:</label>
-              <input name="nome" onChange={handleChange} />
-  
-              <label>Data de nascimento:</label>
-              <input name="dataNascimento" type="date" onChange={handleChange} />
-  
-              <label>Email:</label>
-              <input name="email" type="email" onChange={handleChange} />
-  
-              <label>Telefone:</label>
-              <input name="telefone" onChange={handleChange} />
-            </div>
-          );
-  
-        case 1:
-          return (
-            <div className="form-etapa">
-              <label>Motivo da consulta:</label>
-              <textarea name="motivo" onChange={handleChange} />
-  
-              <label>Doenças diagnosticadas:</label>
-              <textarea name="doencas" onChange={handleChange} />
-  
-              <label>Cirurgias realizadas:</label>
-              <textarea name="cirurgias" onChange={handleChange} />
-  
-              <label>Alergias:</label>
-              <textarea name="alergias" onChange={handleChange} />
-            </div>
-          );
-  
-        default:
-          return <div className="form-etapa">Etapa não implementada ainda.</div>;
-      }
-    };
-  
-    return (
-      <div className="form-container">
-        <h1 className="form-titulo">Anamnese - Etapa {etapaAtual + 1} de {etapas.length}</h1>
-        <p className="form-subtitulo">{etapas[etapaAtual]}</p>
-        <form>{renderEtapa()}</form>
-  
-        <div className="form-navegacao">
-          {etapaAtual > 0 && (
-            <button type="button" onClick={handleEtapaAnterior} className="btn-voltar">
-              Etapa anterior
-            </button>
-          )}
-  
-          {etapaAtual < etapas.length - 1 ? (
-            <button type="button" onClick={handleProximaEtapa} className="btn-avancar">
-              Próxima etapa
-            </button>
-          ) : (
-            <button type="submit" className="btn-enviar">
-              Enviar
-            </button>
-          )}
-        </div>
+  "Dados Pessoais",
+  "Histórico de Saúde",
+  "Hábitos de Vida",
+  "Alimentação e Digestão",
+  "Frequência Alimentar",
+  "Rastreamento Metabólico"
+];
+
+export default function AnamneseForm() {
+  const [etapaAtual, setEtapaAtual] = useState(0);
+  const [formData, setFormData] = useState<Record<string, string>>({});
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleProximaEtapa = () => {
+    if (etapaAtual < etapas.length - 1) setEtapaAtual(etapaAtual + 1);
+  };
+
+  const handleEtapaAnterior = () => {
+    if (etapaAtual > 0) setEtapaAtual(etapaAtual - 1);
+  };
+
+  const renderEtapa = () => {
+    switch (etapaAtual) {
+      case 0:
+        return (
+          <div className="form-etapa">
+            <label>Nome completo:</label>
+            <input name="nome" onChange={handleChange} />
+
+            <label>Data de nascimento:</label>
+            <input name="dataNascimento" type="date" onChange={handleChange} />
+
+            <label>Idade:</label>
+            <input name="idade" onChange={handleChange} />
+
+            <label>Cidade:</label>
+            <input name="cidade" onChange={handleChange} />
+
+            <label>Email:</label>
+            <input name="email" type="email" onChange={handleChange} />
+
+            <label>Telefone:</label>
+            <input name="telefone" onChange={handleChange} />
+          </div>
+        );
+
+      case 1:
+        return (
+          <div className="form-etapa">
+            <label>Motivo da consulta:</label>
+            <textarea name="motivoConsulta" onChange={handleChange} />
+
+            <label>Principais queixas ou sintomas:</label>
+            <textarea name="queixas" onChange={handleChange} />
+
+            <label>Doenças diagnosticadas:</label>
+            <textarea name="doencas" onChange={handleChange} />
+
+            <label>Profissão:</label>
+            <input name="profissao" onChange={handleChange} />
+
+            <label>Cirurgias realizadas:</label>
+            <textarea name="cirurgias" onChange={handleChange} />
+
+            <label>Alergias:</label>
+            <textarea name="alergias" onChange={handleChange} />
+
+            <label>Medicamentos ou suplementos:</label>
+            <textarea name="medicamentos" onChange={handleChange} />
+
+            <label>Uso recorrente de antibóticos:</label>
+            <textarea name="antibioticos" onChange={handleChange} />
+
+            <label>Exames recentes:</label>
+            <textarea name="exames" onChange={handleChange} />
+
+            <label>Histórico familiar (doenças):</label>
+            <textarea name="historicoFamiliar" onChange={handleChange} />
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="form-etapa">
+            <label>Você pratica atividade física?</label>
+            <textarea name="atividadeFisica" onChange={handleChange} />
+
+            <label>Você fuma?</label>
+            <textarea name="fumo" onChange={handleChange} />
+
+            <label>Consome bebida alcoólica?</label>
+            <textarea name="alcool" onChange={handleChange} />
+
+            <label>Qualidade do sono:</label>
+            <textarea name="sono" onChange={handleChange} />
+
+            <label>Horas de sono por noite:</label>
+            <input name="horasSono" onChange={handleChange} />
+
+            <label>Horários de dormir e acordar:</label>
+            <textarea name="horarioSono" onChange={handleChange} />
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="form-etapa">
+            <label>Tem intolerância a algum alimento?</label>
+            <textarea name="intolerancia" onChange={handleChange} />
+
+            <label>Consumo de água e líquidos diário:</label>
+            <textarea name="agua" onChange={handleChange} />
+
+            <label>Consome líquido junto das refeições?</label>
+            <textarea name="liquidoRefeicao" onChange={handleChange} />
+
+            <label>Como é sua digestão?</label>
+            <textarea name="digestao" onChange={handleChange} />
+
+            <label>Funcionamento do intestino:</label>
+            <textarea name="intestino" onChange={handleChange} />
+
+            <label>Formato das fezes:</label>
+            <textarea name="fezes" onChange={handleChange} />
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="form-etapa">
+            <label>Descreva a frequência de consumo de alimentos (ex: frutas, hortaliças, doces, refrigerantes, etc.):</label>
+            <textarea name="frequenciaAlimentar" onChange={handleChange} />
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="form-etapa">
+            <label>Rastreamento metabólico (descreva sintomas e intensidade nos últimos 30 dias):</label>
+            <textarea name="rastreamentoMetabolico" onChange={handleChange} rows={10} />
+          </div>
+        );
+
+      default:
+        return <div className="form-etapa">Etapa não implementada ainda.</div>;
+    }
+  };
+
+  return (
+    <div className="form-container">
+      <h1 className="form-titulo">Anamnese - Etapa {etapaAtual + 1} de {etapas.length}</h1>
+      <p className="form-subtitulo">{etapas[etapaAtual]}</p>
+      <form>{renderEtapa()}</form>
+
+      <div className="form-navegacao">
+        {etapaAtual > 0 && (
+          <button type="button" onClick={handleEtapaAnterior} className="btn-voltar">
+            Etapa anterior
+          </button>
+        )}
+
+        {etapaAtual < etapas.length - 1 ? (
+          <button type="button" onClick={handleProximaEtapa} className="btn-avancar">
+            Próxima etapa
+          </button>
+        ) : (
+          <button type="submit" className="btn-enviar">
+            Enviar
+          </button>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
+}
