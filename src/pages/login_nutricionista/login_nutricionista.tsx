@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import './login_nutricionista.css';
 import { Link, useNavigate } from "react-router-dom";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../../components/firebase/firebaseConfig";
 import bg2 from "../../content/foto_fundo_login_nutricionista.png";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../components/firebase/firebaseConfig";
 
 export default function LoginNutricionista() {
   const [email, setEmail] = useState("");
@@ -11,16 +11,26 @@ export default function LoginNutricionista() {
   const [erro, setErro] = useState("");
   const navigate = useNavigate();
 
-  const handleLoginNutricionista = async () => {
+  const handleLogin = async (): Promise<void> => {
     try {
-      await signInWithEmailAndPassword(auth, email, senha);
-      navigate("/perfil_nutricionista");
+      console.log("Tentando logar com:", email, senha);
+
+      const ref = collection(db, "nutricionistas"); 
+      const q = query(ref, where("email", "==", email), where("senha", "==", senha));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        console.log("Login autorizado!");
+        localStorage.setItem("nutriEmail", email);
+        navigate("/perfil_nutricionista");
+      } else {
+        setErro("Email ou senha inválidos.");
+      }
     } catch (error) {
-      console.error("Erro ao logar:", error);
-      setErro("Email ou senha inválidos.");
+      console.error("Erro real do Firebase:", error);
+      setErro("Erro ao tentar fazer login.");
     }
   };
-  
 
   return (
     <div className="login-page">
@@ -47,11 +57,11 @@ export default function LoginNutricionista() {
 
         {erro && <p style={{ color: "red" }}>{erro}</p>}
 
-        <button onClick={handleLoginNutricionista} className="botao-login">LOGIN</button>
+        <button onClick={handleLogin} className="botao-login">LOGIN</button>
 
         <div className="nao-cadastro">
           <span>Não possui cadastro?</span>
-          <Link to="/" className="botao-clique-aqui2">Clique Aqui.</Link>
+          <Link to="/cadastro" className="botao-clique-aqui2">Clique Aqui.</Link>
         </div>
       </div>
     </div>

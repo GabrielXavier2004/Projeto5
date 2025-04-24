@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './perfil_nutricionista.css';
 import { Link } from "react-router-dom";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../../components/firebase/firebaseConfig";
 
 import userIcon from '../../content/user_icon.png';
 import pacientesIcon from '../../content/paciente_icon.png';
@@ -9,6 +11,27 @@ import agendaIcon from '../../content/agenda_icon.png';
 import logo from "../../content/logo.png";
 
 export default function PerfilNutricionista() {
+  const [nomeNutri, setNomeNutri] = useState("Carregando...");
+
+  useEffect(() => {
+    const fetchNutri = async () => {
+      const email = localStorage.getItem("nutriEmail");
+      if (!email) return;
+
+      const q = query(collection(db, "nutricionistas"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const data = querySnapshot.docs[0].data();
+        setNomeNutri(data.nome || "Nutricionista");
+      } else {
+        setNomeNutri("Nutricionista");
+      }
+    };
+
+    fetchNutri();
+  }, []);
+
   return (
     <div className="perfil-container">
       <header className="perfil-header">
@@ -25,7 +48,7 @@ export default function PerfilNutricionista() {
 
       <main className="perfil-main">
         <img src={userIcon} alt="Perfil" className="user-icon" />
-        <h2>Doutor Gabriel Xavier</h2>
+        <h2>Doutor {nomeNutri}</h2>
 
         <div className="card-container">
           <Link to="/minha_dieta_paciente" className="card">
