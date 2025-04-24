@@ -61,7 +61,7 @@ export default function LoginNutricionista() {
 
         <div className="nao-cadastro">
           <span>Não possui cadastro?</span>
-          <Link to="/cadastro" className="botao-clique-aqui2">Clique Aqui.</Link>
+          <Link to="/cadastro_nutricionista" className="botao-clique-aqui2">Clique Aqui.</Link>
         </div>
       </div>
     </div>

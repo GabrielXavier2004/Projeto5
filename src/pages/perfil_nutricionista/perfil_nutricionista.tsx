@@ -51,7 +51,7 @@ export default function PerfilNutricionista() {
         <h2>Doutor {nomeNutri}</h2>
 
         <div className="card-container">
-          <Link to="/minha_dieta_paciente" className="card">
+          <Link to="/cadastro_paciente" className="card">
             <img src={pacientesIcon} alt="Minha Dieta" />
             <span>Pacientes</span>
           </Link>
