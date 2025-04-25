@@ -110,3 +110,28 @@
   .botao-salvar:hover {
     background-color: #2e805a;
   }
+
+  .acoes-pacientes {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  
+  .input-busca {
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 260px;
+    max-width: 100%;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: border 0.3s;
+  }
+  
+  .input-busca:focus {
+    border-color: #3d9970;
+    outline: none;
+  }
+  

@@ -15,7 +15,9 @@ interface Paciente {
 
 export default function ListaPacientes() {
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
+  const [pacientesFiltrados, setPacientesFiltrados] = useState<Paciente[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [busca, setBusca] = useState("");
 
   useEffect(() => {
     const fetchPacientes = async () => {
@@ -27,6 +29,7 @@ export default function ListaPacientes() {
 
       const lista: Paciente[] = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Paciente));
       setPacientes(lista);
+      setPacientesFiltrados(lista);
       setCarregando(false);
     };
 
@@ -55,22 +58,40 @@ export default function ListaPacientes() {
     );
   };
 
+  const handleBusca = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const termo = e.target.value.toLowerCase();
+    setBusca(termo);
+    const filtrados = pacientes.filter(p =>
+      p.nome.toLowerCase().includes(termo) || p.cpf.includes(termo)
+    );
+    setPacientesFiltrados(filtrados);
+  };
+
   return (
     <div>
       <HeaderNutri />
       <div className="lista-pacientes-container">
         <div className="lista-pacientes-header">
           <h2>Meus Pacientes</h2>
-          <Link to="/cadastro_paciente" className="botao-adicionar">+ Novo Paciente</Link>
+          <div className="acoes-pacientes">
+            <input
+              type="text"
+              placeholder="Buscar por nome ou CPF"
+              value={busca}
+              onChange={handleBusca}
+              className="input-busca"
+            />
+            <Link to="/cadastro_paciente" className="botao-adicionar">+ Novo Paciente</Link>
+          </div>
         </div>
 
         {carregando ? (
           <p>Carregando pacientes...</p>
-        ) : pacientes.length === 0 ? (
+        ) : pacientesFiltrados.length === 0 ? (
           <p>Nenhum paciente encontrado.</p>
         ) : (
           <ul className="lista-pacientes">
-            {pacientes.map((paciente) => (
+            {pacientesFiltrados.map((paciente) => (
               <li key={paciente.id} className="paciente-card">
                 {paciente.modoEdicao ? (
                   <>
@@ -92,10 +113,10 @@ export default function ListaPacientes() {
                   </>
                 ) : (
                   <>
+                    <button className="botao-editar" onClick={() => ativarEdicao(paciente.id)}>✏️</button>
                     <p><strong>Nome:</strong> {paciente.nome}</p>
                     <p><strong>CPF:</strong> {paciente.cpf}</p>
                     <p><strong>ID do Paciente:</strong> {paciente.pacienteId}</p>
-                    <button className="botao-editar" onClick={() => ativarEdicao(paciente.id)}>✏️</button>
                   </>
                 )}
               </li>
