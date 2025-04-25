@@ -1,61 +1,115 @@
 .form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-  
-  .form-titulo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  .form-subtitulo {
-    margin-bottom: 1.5rem;
-    color: #555;
-  }
-  
-  .form-etapa label {
-    display: block;
-    margin-top: 1rem;
-    font-weight: 500;
-  }
-  
-  .form-etapa input,
-  .form-etapa textarea {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.25rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  .form-navegacao {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  
-  .btn-voltar,
-  .btn-avancar,
-  .btn-enviar {
-    padding: 0.5rem 1.25rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .btn-voltar {
-    background-color: #e0e0e0;
-  }
-  
-  .btn-avancar {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .btn-enviar {
-    background-color: #1976d2;
-    color: white;
-  }
-  
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.form-titulo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.form-subtitulo {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.form-etapa label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.form-etapa input,
+.form-etapa textarea,
+.form-etapa select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Alteração: Estilo para campos obrigatórios não preenchidos */
+input[required]:invalid,
+textarea[required]:invalid,
+select[required]:invalid {
+  background-color: #ffe6e6; /* Fundo claro para indicar erro */
+  border: 1px solid #f44336; /* Borda vermelha */
+}
+
+/* Garantindo que a borda vermelha seja mantida ao focar no campo */
+input[required]:invalid:focus,
+textarea[required]:invalid:focus,
+select[required]:invalid:focus {
+  border: 1px solid #f44336; /* Borda vermelha ao focar no campo */
+  outline: none; /* Remove o contorno padrão */
+}
+
+.form-etapa input.error,
+.form-etapa textarea.error,
+.form-etapa select.error {
+  border: 1px solid #f44336;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 0.5rem;
+}
+
+.form-navegacao {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.btn-voltar,
+.btn-avancar,
+.btn-enviar {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.btn-voltar {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.btn-avancar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-avancar:hover {
+  background-color: #45a049;
+}
+
+.btn-enviar {
+  background-color: #1976d2;
+  color: white;
+}
+
+.btn-enviar:hover {
+  background-color: #1565c0;
+}
+
+.form-grupo {
+  margin-bottom: 1.5rem;
+}
