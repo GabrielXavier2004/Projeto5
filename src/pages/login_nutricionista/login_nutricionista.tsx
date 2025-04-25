@@ -21,6 +21,8 @@ export default function LoginNutricionista() {
 
       if (!querySnapshot.empty) {
         console.log("Login autorizado!");
+        const doc = querySnapshot.docs[0];
+        localStorage.setItem("nutriId", doc.id);
         localStorage.setItem("nutriEmail", email);
         navigate("/perfil_nutricionista");
       } else {

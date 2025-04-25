@@ -1,0 +1,112 @@
+.lista-pacientes-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 32px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .lista-pacientes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  
+  .lista-pacientes-header h2 {
+    font-size: 28px;
+    color: #333;
+    margin: 0;
+  }
+  
+  .botao-adicionar {
+    padding: 10px 20px;
+    background-color: #65D775;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .botao-adicionar:hover {
+    background-color: #45a049;
+  }
+  
+  .lista-pacientes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .paciente-card {
+    background-color: #f9f9f9;
+    padding: 20px 24px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+  }
+  
+  .paciente-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  .paciente-card p {
+    margin: 6px 0;
+    font-size: 15px;
+    color: #444;
+  }
+  
+  .paciente-card strong {
+    color: #333;
+  }
+  
+  .botao-editar {
+    background-color: #65D775;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    float: right;
+    margin-top: -5px;
+  }
+  
+  .botao-editar:hover {
+    background-color: #45a049;
+  }
+
+  .input-editar {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  .botao-salvar {
+    background-color: #3d9970;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .botao-salvar:hover {
+    background-color: #2e805a;
+  }
