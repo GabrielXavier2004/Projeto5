@@ -1,7 +1,7 @@
 /* Container principal */
 .perfil-container {
     font-family: Arial, sans-serif;
-    background-color: #fff;
+    background-color: #eee;
     min-height: 100vh;
 }
 
@@ -78,15 +78,14 @@
 
 /* Cards com ícones */
 .card-container {
-    margin-top: 3rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     gap: 6rem;
-    margin-bottom: 2rem;
 }
 
 .card {
-    background-color: #eee;
+    background-color: white;
     padding: 2rem;
     border-radius: 15px;
     text-align: center;

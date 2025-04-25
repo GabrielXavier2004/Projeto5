@@ -1,17 +1,8 @@
 /* Container principal */
 .perfil-container {
     font-family: Arial, sans-serif;
-    background-color: #fff;
+    background-color: #eee;
     min-height: 100vh;
-}
-
-/* Header com layout flexível */
-.perfil-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    /* linha removida */
 }
 
 /* Logo */
@@ -78,15 +69,14 @@
 
 /* Cards com ícones */
 .card-container {
-    margin-top: 3rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     gap: 6rem;
-    margin-bottom: 2rem;
 }
 
 .card {
-    background-color: #eee;
+    background-color: #fff;
     padding: 2rem;
     border-radius: 15px;
     text-align: center;
