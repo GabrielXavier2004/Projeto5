@@ -140,3 +140,30 @@ select[required]:invalid:focus {
   font-size: 14px;
   color: #555;
 }
+.botoes-sim-nao {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.botao-sim,
+.botao-nao {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.botao-sim.ativo {
+  background-color: #65D775;
+  color: white;
+  border: 1px solid #4caf50;
+}
+
+.botao-nao.ativo {
+  background-color: #f44336;
+  color: white;
+  border: 1px solid #d32f2f;
+}
