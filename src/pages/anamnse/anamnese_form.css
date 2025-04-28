@@ -113,3 +113,30 @@ select[required]:invalid:focus {
 .form-grupo {
   margin-bottom: 1.5rem;
 }
+
+.resumo-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.resumo-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.resumo-card h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.resumo-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}

@@ -1,4 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../components/firebase/firebaseConfig"; // ajuste o caminho se necessário
+import { useNavigate } from "react-router-dom";
 import "./anamnese_form.css";
 
 const etapas = [
@@ -14,17 +17,30 @@ const etapas = [
 export default function AnamneseForm() {
   const [etapaAtual, setEtapaAtual] = useState(0);
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const [anamneseExistente, setAnamneseExistente] = useState(false);
+  const [anamneseCarregada, setAnamneseCarregada] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const dadosSalvos = localStorage.getItem("anamneseForm");
-    if (dadosSalvos) {
-      setFormData(JSON.parse(dadosSalvos));
-    }
+    const buscarAnamnese = async () => {
+      const pacienteId = localStorage.getItem("pacienteId");
+      if (!pacienteId) return;
+
+      const q = query(collection(db, "anamneses"), where("pacienteId", "==", pacienteId));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const dados = querySnapshot.docs[0].data();
+        setFormData(dados.respostas || {});
+        setEtapaAtual(etapas.length - 1); 
+        setAnamneseExistente(true);
+      }
+
+      setAnamneseCarregada(true);
+    };
+
+    buscarAnamnese();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("anamneseForm", JSON.stringify(formData));
-  }, [formData]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -32,7 +48,6 @@ export default function AnamneseForm() {
     setFormData((prev) => {
       const newData = { ...prev, [name]: value };
 
-      // Se for uma pergunta condicional e a resposta não for "sim", remove o campo de texto associado
       if (
         name.startsWith("temAlergia") ||
         name.startsWith("usaMedicamentos") ||
@@ -60,7 +75,7 @@ export default function AnamneseForm() {
       2: ["atividadeFisica", "fuma", "bebe", "sono", "horasSono", "horarioSono"],
       3: ["agua", "liquidoRefeicao", "digestao", "intestino", "fezes"],
       4: ["frequenciaAlimentar"],
-      5: [] // Resumo, não tem campos obrigatórios
+      5: []
     };
 
     const obrigatorios = camposObrigatorios[etapaAtual] || [];
@@ -81,6 +96,29 @@ export default function AnamneseForm() {
 
   const handleEtapaAnterior = () => {
     if (etapaAtual > 0) setEtapaAtual(etapaAtual - 1);
+  };
+
+  const enviarAnamnese = async () => {
+    try {
+      const pacienteId = localStorage.getItem("pacienteId");
+      if (!pacienteId) {
+        alert("Paciente não autenticado.");
+        return;
+      }
+
+      await addDoc(collection(db, "anamneses"), {
+        pacienteId,
+        respostas: formData,
+        dataEnvio: new Date()
+      });
+
+      alert("Anamnese enviada com sucesso!");
+      localStorage.removeItem("anamneseForm");
+      navigate("/perfil_paciente");
+    } catch (error) {
+      console.error("Erro ao enviar anamnese:", error);
+      alert("Erro ao enviar anamnese.");
+    }
   };
 
   const renderCondicional = (pergunta: string, name: string, textoLabel: string) => (
@@ -132,25 +170,29 @@ export default function AnamneseForm() {
       frequenciaAlimentar: "Frequência alimentar",
       rastreamentoMetabolico: "Rastreamento metabólico"
     };
-  
+
     return (
       <div className="form-etapa">
-        <h2>Resumo das Informações</h2>
-        <ul className="resumo-lista">
+        <div className="resumo-cards">
           {Object.entries(formData).map(([chave, valor]) => {
-            const nomeAmigavel = camposAmigaveis[chave] || chave; // Se não encontrar o nome, mantém a chave original
+            const nomeAmigavel = camposAmigaveis[chave] || chave;
             return (
-              <li key={chave}>
-                <strong>{nomeAmigavel}:</strong> {valor || "Não informado"}
-              </li>
+              <div key={chave} className="resumo-card">
+                <h4>{nomeAmigavel}</h4>
+                <p>{valor || "Não informado"}</p>
+              </div>
             );
           })}
-        </ul>
+        </div>
       </div>
     );
-  };  
+  };
 
   const renderEtapa = () => {
+    if (!anamneseCarregada) {
+      return <p>Carregando anamnese...</p>;
+    }
+    
     switch (etapaAtual) {
       case 0:
         return (
@@ -277,7 +319,7 @@ export default function AnamneseForm() {
           <button className="btn-avancar" onClick={handleProximaEtapa}>Avançar</button>
         )}
         {etapaAtual === etapas.length - 1 && (
-          <button className="btn-enviar" onClick={() => alert("Formulário enviado com sucesso!")}>
+          <button className="btn-enviar" onClick={enviarAnamnese}>
             Enviar
           </button>
         )}
