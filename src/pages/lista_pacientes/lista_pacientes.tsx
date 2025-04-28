@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
 import { Link } from "react-router-dom";
 import './lista_pacientes.css';
@@ -36,8 +36,24 @@ export default function ListaPacientes() {
     fetchPacientes();
   }, []);
 
+  const aplicarFiltro = (listaAtualizada: Paciente[]) => {
+    if (busca.trim() === "") {
+      setPacientesFiltrados(listaAtualizada);
+    } else {
+      const termo = busca.toLowerCase();
+      const filtrados = listaAtualizada.filter(p =>
+        p.nome.toLowerCase().includes(termo) || p.cpf.includes(termo)
+      );
+      setPacientesFiltrados(filtrados);
+    }
+  };
+
   const ativarEdicao = (id: string) => {
-    setPacientes(prev => prev.map(p => p.id === id ? { ...p, modoEdicao: true } : p));
+    setPacientes(prev => {
+      const atualizados = prev.map(p => p.id === id ? { ...p, modoEdicao: true } : p);
+      aplicarFiltro(atualizados);
+      return atualizados;
+    });
   };
 
   const salvarEdicao = async (paciente: Paciente) => {
@@ -46,10 +62,12 @@ export default function ListaPacientes() {
       nome: paciente.nome,
       cpf: paciente.cpf,
     });
-
-    setPacientes(prev =>
-      prev.map(p => p.id === paciente.id ? { ...p, modoEdicao: false } : p)
-    );
+  
+    setPacientes(prev => {
+      const atualizados = prev.map(p => p.id === paciente.id ? { ...p, modoEdicao: false } : p);
+      aplicarFiltro(atualizados);
+      return atualizados;
+    });
   };
 
   const handleChange = (id: string, campo: keyof Paciente, valor: string) => {
@@ -65,6 +83,19 @@ export default function ListaPacientes() {
       p.nome.toLowerCase().includes(termo) || p.cpf.includes(termo)
     );
     setPacientesFiltrados(filtrados);
+  };
+
+  const excluirPaciente = async (id: string) => {
+    if (window.confirm("Tem certeza que deseja excluir este paciente?")) {
+      try {
+        await deleteDoc(doc(db, "pacientes", id));
+        const atualizados = pacientes.filter(p => p.id !== id);
+        setPacientes(atualizados);
+        aplicarFiltro(atualizados);
+      } catch (error) {
+        console.error("Erro ao excluir paciente:", error);
+      }
+    }
   };
 
   return (
@@ -117,6 +148,7 @@ export default function ListaPacientes() {
                     <p><strong>Nome:</strong> {paciente.nome}</p>
                     <p><strong>CPF:</strong> {paciente.cpf}</p>
                     <p><strong>ID do Paciente:</strong> {paciente.pacienteId}</p>
+                    <button className="botao-excluir" onClick={() => excluirPaciente(paciente.id)}>🗑️</button>
                   </>
                 )}
               </li>

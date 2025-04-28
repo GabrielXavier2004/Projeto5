@@ -39,7 +39,7 @@ export default function CadastroPaciente() {
       setErro("");
       setSucesso(true);
 
-      setTimeout(() => navigate("/pacientes"), 1500);
+      setTimeout(() => navigate("/lista_paciente"), 1500);
     } catch (error) {
       console.error("Erro ao cadastrar paciente:", error);
       setErro("Erro ao cadastrar paciente.");
