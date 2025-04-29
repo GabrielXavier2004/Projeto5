@@ -11,6 +11,7 @@ import AnamneseForm from "./pages/anamnse/anamnese_form";
 import CadastroNutricionista from "./pages/cadastro_nutricionista/cadastro_nutricionista";
 import CadastroPaciente from "./pages/cadastro_paciente/cadastro_paciente";
 import ListaPacientes from "./pages/lista_pacientes/lista_pacientes";
+import PacienteDetalhes from "./pages/paciente_detalhes/paciente_detalhes";
 
 export default function App() {
 
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/cadastro_nutricionista" element={<CadastroNutricionista />} />
           <Route path="/cadastro_paciente" element={<CadastroPaciente />} />
           <Route path="/lista_paciente" element={<ListaPacientes />} />
+          <Route path="/paciente/:pacienteId" element={<PacienteDetalhes />} />
         </Routes>
     </Router>
   );

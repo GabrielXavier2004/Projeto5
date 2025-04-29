@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './lista_pacientes.css';
 import HeaderNutri from "../../components/headers/header_nutri";
 
@@ -18,6 +18,7 @@ export default function ListaPacientes() {
   const [pacientesFiltrados, setPacientesFiltrados] = useState<Paciente[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [busca, setBusca] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPacientes = async () => {
@@ -62,7 +63,7 @@ export default function ListaPacientes() {
       nome: paciente.nome,
       cpf: paciente.cpf,
     });
-  
+
     setPacientes(prev => {
       const atualizados = prev.map(p => p.id === paciente.id ? { ...p, modoEdicao: false } : p);
       aplicarFiltro(atualizados);
@@ -123,7 +124,12 @@ export default function ListaPacientes() {
         ) : (
           <ul className="lista-pacientes">
             {pacientesFiltrados.map((paciente) => (
-              <li key={paciente.id} className="paciente-card">
+              <li
+                key={paciente.id}
+                className="paciente-card"
+                onClick={() => navigate(`/paciente/${paciente.pacienteId}`)}
+                style={{ cursor: "pointer" }}
+              >
                 {paciente.modoEdicao ? (
                   <>
                     <input
@@ -138,17 +144,33 @@ export default function ListaPacientes() {
                       onChange={(e) => handleChange(paciente.id, "cpf", e.target.value)}
                       placeholder="CPF"
                     />
-                    <button className="botao-salvar" onClick={() => salvarEdicao(paciente)}>
-                      Salvar
-                    </button>
+                    <button
+                      className="botao-salvar"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        salvarEdicao(paciente);
+                      }}
+                    >Salvar</button>
                   </>
                 ) : (
                   <>
-                    <button className="botao-editar" onClick={() => ativarEdicao(paciente.id)}>✏️</button>
+                    <button
+                      className="botao-editar"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        ativarEdicao(paciente.id);
+                      }}
+                    >✏️</button>
                     <p><strong>Nome:</strong> {paciente.nome}</p>
                     <p><strong>CPF:</strong> {paciente.cpf}</p>
                     <p><strong>ID do Paciente:</strong> {paciente.pacienteId}</p>
-                    <button className="botao-excluir" onClick={() => excluirPaciente(paciente.id)}>🗑️</button>
+                    <button
+                      className="botao-excluir"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        excluirPaciente(paciente.id);
+                      }}
+                    >🗑️</button>
                   </>
                 )}
               </li>
