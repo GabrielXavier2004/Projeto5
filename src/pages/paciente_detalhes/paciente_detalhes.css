@@ -62,3 +62,42 @@
     background-color: #f1f1f1;
   }
   
+  .detalhes-container{
+    padding: 1% 5%;
+  }
+
+  .botao-ver-mais {
+    margin-top: 12px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .botao-ver-mais:hover {
+    background-color: #135ba1;
+  }
+  
+  .anamnese-completa {
+    margin-top: 15px;
+    padding: 12px;
+    background: #f4f4f4;
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .anamnese-completa ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .anamnese-completa li {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
