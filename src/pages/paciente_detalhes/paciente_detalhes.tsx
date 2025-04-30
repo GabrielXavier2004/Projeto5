@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
 import "./paciente_detalhes.css";
 import HeaderNutri from "../../components/headers/header_nutri";
@@ -11,7 +11,33 @@ export default function PacienteDetalhes() {
   const [paciente, setPaciente] = useState<any>(null);
   const [anamnese, setAnamnese] = useState<any>(null);
   const [mostrarAnamneseCompleta, setMostrarAnamneseCompleta] = useState(false);
+  const [editandoAnamnese, setEditandoAnamnese] = useState(false);
+  const [anamneseEditada, setAnamneseEditada] = useState<any>({});
 
+  const habilitarEdicaoAnamnese = () => {
+    setEditandoAnamnese(true);
+    setAnamneseEditada({ ...anamnese });
+  };
+
+  const salvarAnamneseEditada = async () => {
+    try {
+      const docRef = query(collection(db, "anamneses"), where("pacienteId", "==", pacienteId));
+      const snapshot = await getDocs(docRef);
+      if (!snapshot.empty) {
+        const id = snapshot.docs[0].id;
+        const ref = doc(db, "anamneses", id);
+        await updateDoc(ref, {
+          respostas: anamneseEditada,
+        });
+        setAnamnese(anamneseEditada);
+        setEditandoAnamnese(false);
+        alert("Anamnese atualizada com sucesso.");
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar anamnese:", error);
+      alert("Erro ao atualizar anamnese.");
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,61 +76,86 @@ export default function PacienteDetalhes() {
           <p><strong>ID:</strong> {paciente?.pacienteId}</p>
           <button onClick={() => navigate(-1)} className="btn-voltar">Voltar</button>
         </div>
+
         <div className="cards-topo">
-        <div className="card-info">
-          <h3>Anamnese Resumida</h3>
-          {anamnese ? (
-            <>
-              <ul className="resumo-anamnese">
-                <li><strong>Idade:</strong> {anamnese.idade}</li>
-                <li><strong>Alergias:</strong> {anamnese.temAlergia === "sim" ? anamnese.temAlergiaTexto : "Não"}</li>
-                <li><strong>Doenças:</strong> {anamnese.doencas}</li>
-                <li><strong>Medicamentos:</strong> {anamnese.usaMedicamentos === "sim" ? anamnese.usaMedicamentosTexto : "Não"}</li>
-                <li><strong>Atividade Física:</strong> {anamnese.atividadeFisica === "sim" ? anamnese.atividadeFisicaTexto : "Não pratica"}</li>
-              </ul>
+          {/* Card Anamnese */}
+          <div className="card-info">
+            <h3>Anamnese Resumida</h3>
+            {anamnese ? (
+              <>
+                <ul className="resumo-anamnese">
+                  <li><strong>Idade:</strong> {anamnese.idade}</li>
+                  <li><strong>Alergias:</strong> {anamnese.temAlergia === "sim" ? anamnese.temAlergiaTexto : "Não"}</li>
+                  <li><strong>Doenças:</strong> {anamnese.doencas}</li>
+                  <li><strong>Medicamentos:</strong> {anamnese.usaMedicamentos === "sim" ? anamnese.usaMedicamentosTexto : "Não"}</li>
+                  <li><strong>Atividade Física:</strong> {anamnese.atividadeFisica === "sim" ? anamnese.atividadeFisicaTexto : "Não pratica"}</li>
+                </ul>
 
-              <button
-                className="botao-ver-mais"
-                onClick={() => setMostrarAnamneseCompleta(!mostrarAnamneseCompleta)}
-              >
-                {mostrarAnamneseCompleta ? "Ver menos" : "Ver mais"}
-              </button>
+                <button
+                  className="botao-ver-mais"
+                  onClick={() => setMostrarAnamneseCompleta(!mostrarAnamneseCompleta)}
+                >
+                  {mostrarAnamneseCompleta ? "Ver menos" : "Ver mais"}
+                </button>
 
-              {mostrarAnamneseCompleta && (
-                <div className="anamnese-completa">
-                  <ul>
-                    {Object.entries(anamnese).map(([chave, valor]) => (
-                      <li key={chave}><strong>{chave}:</strong> {String(valor)}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </>
-          ) : (
-            <p>Nenhuma anamnese cadastrada.</p>
-          )}
+                {mostrarAnamneseCompleta && (
+                  <div className="anamnese-completa">
+                    <ul>
+                      {Object.entries(editandoAnamnese ? anamneseEditada : anamnese).map(([chave, valor]) => (
+                        <li key={chave}>
+                          <strong>{chave}:</strong>{" "}
+                          {editandoAnamnese ? (
+                            <input
+                              value={anamneseEditada[chave]}
+                              onChange={(e) =>
+                                setAnamneseEditada((prev: any) => ({
+                                  ...prev,
+                                  [chave]: e.target.value,
+                                }))
+                              }
+                            />
+                          ) : (
+                            String(valor)
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {editandoAnamnese ? (
+                      <button className="botao-ver-mais" onClick={salvarAnamneseEditada}>
+                        Salvar Alterações
+                      </button>
+                    ) : (
+                      <button className="botao-ver-mais" onClick={habilitarEdicaoAnamnese}>
+                        ✏️ Editar
+                      </button>
+                    )}
+                  </div>
+                )}
+              </>
+            ) : (
+              <p>Nenhuma anamnese cadastrada.</p>
+            )}
+          </div>
+
+          <div className="card-info">
+            <h3>Evolução</h3>
+            <p><strong>Peso Atual:</strong> 85kg</p>
+            <p><strong>Peso Alvo:</strong> 75kg</p>
+          </div>
+
+          <div className="card-info">
+            <h3>Observações</h3>
+            <p>Pacientes que praticam atividades físicas regularmente possuem maior adesão aos planos alimentares.</p>
+          </div>
         </div>
 
-          <div className="card-info">
-              <h3>Evolução</h3>
-              <p><strong>Peso Atual:</strong> 85kg</p>
-              <p><strong>Peso Alvo:</strong> 75kg</p>
-              <p><em>(Em breve: gráfico de progresso)</em></p>
-          </div>
-
-          <div className="card-info">
-              <h3>Observações</h3>
-              <p>Pacientes que praticam atividades físicas regularmente possuem maior adesão aos planos alimentares.</p>
-              <p><em>(Sugestão futura: registrar motivação ou aderência)</em></p>
-          </div>
-          </div>
-
-          <div className="card-dieta">
+        <div className="card-dieta">
           <h3>Dieta Atual</h3>
           <div className="tabela-dieta">
-              <table>
+            <table>
               <thead>
-                  <tr>
+                <tr>
                   <th>Refeição</th>
                   <th>Seg</th>
                   <th>Ter</th>
@@ -113,22 +164,21 @@ export default function PacienteDetalhes() {
                   <th>Sex</th>
                   <th>Sáb</th>
                   <th>Dom</th>
-                  </tr>
+                </tr>
               </thead>
               <tbody>
-                  {Object.entries(dietaExemplo).map(([refeicao, itens]) => (
+                {Object.entries(dietaExemplo).map(([refeicao, itens]) => (
                   <tr key={refeicao}>
-                      <td><strong>{refeicao}</strong></td>
-                      {itens.map((item, index) => (
+                    <td><strong>{refeicao}</strong></td>
+                    {itens.map((item, index) => (
                       <td key={index}>{item}</td>
-                      ))}
+                    ))}
                   </tr>
-                  ))}
+                ))}
               </tbody>
-              </table>
+            </table>
           </div>
-          </div>
-
+        </div>
       </div>
     </div>
   );
