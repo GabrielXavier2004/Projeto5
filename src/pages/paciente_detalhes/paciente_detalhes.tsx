@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
+import EvolucaoPaciente from "../../components/evolucao/evolucao_paciente";
 import "./paciente_detalhes.css";
 import HeaderNutri from "../../components/headers/header_nutri";
 
@@ -139,9 +140,7 @@ export default function PacienteDetalhes() {
           </div>
 
           <div className="card-info">
-            <h3>Evolução</h3>
-            <p><strong>Peso Atual:</strong> 85kg</p>
-            <p><strong>Peso Alvo:</strong> 75kg</p>
+            <EvolucaoPaciente pacienteId={pacienteId || ""} />
           </div>
 
           <div className="card-info">

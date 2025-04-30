@@ -1,0 +1,144 @@
+import React, { useEffect, useState } from "react";
+import { db } from "../../components/firebase/firebaseConfig";
+import {collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc,} from "firebase/firestore";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+interface Evolucao {
+  id: string;
+  data: string;
+  peso: number;
+  gordura: number;
+}
+
+interface Props {
+  pacienteId: string;
+}
+
+export default function EvolucaoPaciente({ pacienteId }: Props) {
+  const [evolucoes, setEvolucoes] = useState<Evolucao[]>([]);
+  const [novaData, setNovaData] = useState("");
+  const [peso, setPeso] = useState("");
+  const [gordura, setGordura] = useState("");
+  const [editandoId, setEditandoId] = useState<string | null>(null);
+
+  const carregarDados = async () => {
+    const q = query(collection(db, "evolucoes"), where("pacienteId", "==", pacienteId));
+    const querySnapshot = await getDocs(q);
+    const lista: Evolucao[] = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Evolucao[];
+    setEvolucoes(lista.sort((a, b) => a.data.localeCompare(b.data)));
+  };
+
+  useEffect(() => {
+    carregarDados();
+  }, [pacienteId]);
+
+  const adicionarEvolucao = async () => {
+    if (!novaData || !peso || !gordura) return;
+    await addDoc(collection(db, "evolucoes"), {
+      pacienteId,
+      data: novaData,
+      peso: parseFloat(peso),
+      gordura: parseFloat(gordura),
+    });
+    setNovaData("");
+    setPeso("");
+    setGordura("");
+    carregarDados();
+  };
+
+  const excluir = async (id: string) => {
+    await deleteDoc(doc(db, "evolucoes", id));
+    carregarDados();
+  };
+
+  const salvarEdicao = async (id: string) => {
+    const evolucao = evolucoes.find((e) => e.id === id);
+    if (!evolucao) return;
+    await updateDoc(doc(db, "evolucoes", id), {
+      data: evolucao.data,
+      peso: evolucao.peso,
+      gordura: evolucao.gordura,
+    });
+    setEditandoId(null);
+    carregarDados();
+  };
+
+  const atualizarCampo = (id: string, campo: keyof Evolucao, valor: string) => {
+    setEvolucoes((prev) =>
+      prev.map((e) => (e.id === id ? { ...e, [campo]: campo === "data" ? valor : parseFloat(valor) } : e))
+    );
+  };
+
+  return (
+    <div className="evolucao-container">
+      <h3>Evolução do Paciente</h3>
+
+      <div className="form-evolucao">
+        <input
+          type="date"
+          value={novaData}
+          onChange={(e) => setNovaData(e.target.value)}
+          placeholder="Data"
+        />
+        <input
+          type="number"
+          value={peso}
+          onChange={(e) => setPeso(e.target.value)}
+          placeholder="Peso (kg)"
+        />
+        <input
+          type="number"
+          value={gordura}
+          onChange={(e) => setGordura(e.target.value)}
+          placeholder="% Gordura"
+        />
+        <button onClick={adicionarEvolucao}>Adicionar</button>
+      </div>
+
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={evolucoes} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="data" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="peso" stroke="#8884d8" name="Peso (kg)" />
+          <Line type="monotone" dataKey="gordura" stroke="#82ca9d" name="% Gordura" />
+        </LineChart>
+      </ResponsiveContainer>
+
+      <ul className="lista-evolucao">
+        {evolucoes.map((e) => (
+          <li key={e.id} className="item-evolucao">
+            {editandoId === e.id ? (
+              <>
+                <input value={e.data} type="date" onChange={(ev) => atualizarCampo(e.id, "data", ev.target.value)} />
+                <input value={e.peso} type="number" onChange={(ev) => atualizarCampo(e.id, "peso", ev.target.value)} />
+                <input value={e.gordura} type="number" onChange={(ev) => atualizarCampo(e.id, "gordura", ev.target.value)} />
+                <button onClick={() => salvarEdicao(e.id)}>Salvar</button>
+              </>
+            ) : (
+              <>
+                <span>{e.data} - {e.peso}kg - {e.gordura}%</span>
+                <button onClick={() => setEditandoId(e.id)}>✏️</button>
+                <button onClick={() => excluir(e.id)}>🗑️</button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
