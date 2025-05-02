@@ -92,12 +92,14 @@ export default function PacienteDetalhes() {
                   <li><strong>Atividade Física:</strong> {anamnese.atividadeFisica === "sim" ? anamnese.atividadeFisicaTexto : "Não pratica"}</li>
                 </ul>
 
-                <button
-                  className="botao-ver-mais"
-                  onClick={() => setMostrarAnamneseCompleta(!mostrarAnamneseCompleta)}
-                >
-                  {mostrarAnamneseCompleta ? "Ver menos" : "Ver mais"}
-                </button>
+                <div style={{textAlign:"center"}}>
+                  <button
+                    className="botao-ver-mais"
+                    onClick={() => setMostrarAnamneseCompleta(!mostrarAnamneseCompleta)}
+                  >
+                    {mostrarAnamneseCompleta ? "Ver menos" : "Ver mais"}
+                  </button>
+                </div>
 
                 {mostrarAnamneseCompleta && (
                   <div className="anamnese-completa">
@@ -140,13 +142,19 @@ export default function PacienteDetalhes() {
           </div>
 
           <div className="card-info">
-            <EvolucaoPaciente pacienteId={pacienteId || ""} />
+            <h3>Observações</h3>
+            <p>Pacientes que praticam atividades físicas regularmente possuem maior adesão aos planos alimentares.</p>
           </div>
+          
 
           <div className="card-info">
             <h3>Observações</h3>
             <p>Pacientes que praticam atividades físicas regularmente possuem maior adesão aos planos alimentares.</p>
           </div>
+        </div>
+
+        <div className="card-info">
+            <EvolucaoPaciente pacienteId={pacienteId || ""} />
         </div>
 
         <div className="card-dieta">

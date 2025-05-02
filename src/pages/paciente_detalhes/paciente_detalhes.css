@@ -68,7 +68,7 @@
 
   .botao-ver-mais {
     margin-top: 12px;
-    background-color: #1976d2;
+    background-color: #65D775;
     color: white;
     border: none;
     padding: 8px 14px;
@@ -79,7 +79,7 @@
   }
   
   .botao-ver-mais:hover {
-    background-color: #135ba1;
+    background-color: #4CAF50;
   }
   
   .anamnese-completa {

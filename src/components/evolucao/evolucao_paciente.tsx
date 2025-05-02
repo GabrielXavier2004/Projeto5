@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../components/firebase/firebaseConfig";
-import {collection, addDoc, query, where, getDocs, deleteDoc, doc, updateDoc,} from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import {
   LineChart,
   Line,
@@ -11,6 +20,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import "./evolucao_paciente.css";
 
 interface Evolucao {
   id: string;
@@ -82,8 +92,45 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
   };
 
   return (
-    <div className="evolucao-container">
-      <h3>Evolução do Paciente</h3>
+    <div className="evolucao-wrapper">
+      <div className="evolucao-grafico">
+        <h3>Evolução do Paciente</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={evolucoes} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="data" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="peso" stroke="#8884d8" name="Peso (kg)" />
+            <Line type="monotone" dataKey="gordura" stroke="#82ca9d" name="% Gordura" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="cards-grid">
+        <div className="card-info">
+          <h3>Meta</h3>
+          <p><strong>Peso Ideal:</strong> 75kg</p>
+          <p><strong>Gordura Ideal:</strong> 12%</p>
+        </div>
+
+        <div className="card-info">
+          <h3>Última Entrada</h3>
+          {evolucoes.length > 0 ? (
+            <>
+              <p><strong>Data:</strong> {evolucoes.at(-1)?.data}</p>
+              <p><strong>Peso:</strong> {evolucoes.at(-1)?.peso} kg</p>
+              <p><strong>Gordura:</strong> {evolucoes.at(-1)?.gordura}%</p>
+            </>
+          ) : <p>Sem dados ainda.</p>}
+        </div>
+
+        <div className="card-info">
+          <h3>Dica</h3>
+          <p>Consistência na alimentação e nos treinos gera os melhores resultados.</p>
+        </div>
+      </div>
 
       <div className="form-evolucao">
         <input
@@ -104,20 +151,8 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
           onChange={(e) => setGordura(e.target.value)}
           placeholder="% Gordura"
         />
-        <button onClick={adicionarEvolucao}>Adicionar</button>
+        <button className="botao-verde" onClick={adicionarEvolucao}>Adicionar</button>
       </div>
-
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={evolucoes} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="data" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="peso" stroke="#8884d8" name="Peso (kg)" />
-          <Line type="monotone" dataKey="gordura" stroke="#82ca9d" name="% Gordura" />
-        </LineChart>
-      </ResponsiveContainer>
 
       <ul className="lista-evolucao">
         {evolucoes.map((e) => (
@@ -127,13 +162,15 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
                 <input value={e.data} type="date" onChange={(ev) => atualizarCampo(e.id, "data", ev.target.value)} />
                 <input value={e.peso} type="number" onChange={(ev) => atualizarCampo(e.id, "peso", ev.target.value)} />
                 <input value={e.gordura} type="number" onChange={(ev) => atualizarCampo(e.id, "gordura", ev.target.value)} />
-                <button onClick={() => salvarEdicao(e.id)}>Salvar</button>
+                <button className="botao-verde" onClick={() => salvarEdicao(e.id)}>Salvar</button>
               </>
             ) : (
               <>
-                <span>{e.data} - {e.peso}kg - {e.gordura}%</span>
-                <button onClick={() => setEditandoId(e.id)}>✏️</button>
-                <button onClick={() => excluir(e.id)}>🗑️</button>
+                <span>{e.data} - {e.peso}kg - {e.gordura}% de gordura</span>
+                <div className="evolucao-acoes">
+                  <button className="botao-editar-evo" onClick={() => setEditandoId(e.id)}>✏️</button>
+                  <button className="botao-excluir-evo" onClick={() => excluir(e.id)}>🗑️</button>
+                </div>
               </>
             )}
           </li>

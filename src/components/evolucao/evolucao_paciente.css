@@ -1,0 +1,134 @@
+.evolucao-wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.evolucao-grafico {
+  margin-bottom: 32px;
+}
+
+.evolucao-grafico h3 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.card-info {
+  background-color: #f9f9f9;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card-info h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: #333;
+}
+
+.card-info p {
+  font-size: 14px;
+  margin: 6px 0;
+  color: #444;
+}
+
+.form-evolucao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.form-evolucao input {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex: 1;
+  min-width: 150px;
+}
+
+.botao-verde {
+  background-color: #65D775;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botao-verde:hover {
+  background-color: #45a049;
+}
+
+.lista-evolucao {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-evolucao {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.item-evolucao input {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.botao-editar-evo,
+.botao-excluir-evo {
+  background-color: #65D775;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.botao-editar-evo:hover {
+  background-color: #4CAF50;
+}
+
+.botao-excluir-evo {
+  background-color: #e74c3c;
+}
+
+.botao-excluir-evo:hover {
+  background-color: #c0392b;
+}
+.evolucao-acoes {
+  display: flex;
+  gap: 10px;
+  text-align: center;
+}
