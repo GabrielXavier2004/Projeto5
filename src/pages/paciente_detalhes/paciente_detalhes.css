@@ -111,3 +111,48 @@
     width: 100%;
     box-sizing: border-box;
   }
+
+  .botao-exportar {
+  margin-bottom: 10px;
+  background-color: #65D775;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.botao-gerar-dieta {
+  background-color: #65D775;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 10px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.botao-gerar-dieta:hover {
+  background-color: #4CAF50;
+  transform: translateY(-1px);
+}
+.btn-voltar {
+  background-color: #cccccc;
+  color: #333;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-voltar:hover {
+  background-color: #b3b3b3;
+  transform: translateY(-1px);
+}
