@@ -138,7 +138,7 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
       </div>
 
       <div className="cards-grid">
-        <div className="card-info">
+        <div className="card-info2">
           <h3>Meta</h3>
           <div className="metas">
             <div>
@@ -163,7 +163,7 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
           <button className="botao-verde" onClick={salvarMetas}>Salvar Metas</button>
         </div>
 
-        <div className="card-info">
+        <div className="card-info2">
           <h3>Última Entrada</h3>
           {evolucoes.length > 0 ? (
             <>
@@ -174,7 +174,7 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
           ) : <p>Sem dados ainda.</p>}
         </div>
 
-        <div className="card-info">
+        <div className="card-info2">
           <h3>Dica</h3>
           <p>Consistência na alimentação e nos treinos gera os melhores resultados.</p>
         </div>

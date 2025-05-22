@@ -16,17 +16,18 @@ export default function PacienteDetalhes() {
   const [mostrarAnamneseCompleta, setMostrarAnamneseCompleta] = useState(false);
   const [editandoAnamnese, setEditandoAnamnese] = useState(false);
   const [anamneseEditada, setAnamneseEditada] = useState<any>({});
-  const [dietaGerada, setDietaGerada] = useState<Record<string, Record<string, string>> | null>(null);
+  const [dietaGerada, setDietaGerada] = useState<Record<string, Record<string, string[]>> | null>(null);
   const [dietaSalva, setDietaSalva] = useState<Record<string, string[]> | null>(null);
   const [editandoDieta, setEditandoDieta] = useState(false);
-  const [dietaEditada, setDietaEditada] = useState<Record<string, string[]> | null>(null);
+  const [notasNutricionista, setNotasNutricionista] = useState<string>("");
 
   const habilitarEdicaoAnamnese = () => {
     setEditandoAnamnese(true);
     setAnamneseEditada({ ...anamnese });
   };
 
-  const diasSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+  const diasSemana = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+  const ordemRefeicoes = ["Café da Manhã", "Lanche da Manhã", "Almoço", "Lanche da Tarde", "Jantar", "Ceia"];
 
   const alimentos = {
     cafeDaManha: {
@@ -259,6 +260,24 @@ export default function PacienteDetalhes() {
     }
   };
 
+  const salvarDietaNoFirebase = async (dieta: Record<string, Record<string, string[]>>) => {
+    if (!pacienteId || !dietaGerada) return;
+
+    const dietaRef = doc(db, "dietas", pacienteId);
+    
+    try {
+      await setDoc(dietaRef, {
+        pacienteId,
+        dieta: dietaGerada,
+        dataGeracao: new Date(),
+      });
+      console.log("Dieta salva com sucesso no Firebase!");
+    } catch (error) {
+      console.error("Erro ao salvar dieta no Firebase:", error);
+      alert("Erro ao salvar a dieta no Firebase.");
+    }
+  };
+
   const gerarDietaComBase = () => {
     if (!anamnese) return;
     const intoleranteLactose = anamnese.temIntolerancia === "sim" && anamnese.temIntoleranciaTexto?.toLowerCase().includes("lactose");
@@ -266,7 +285,7 @@ export default function PacienteDetalhes() {
 
     const tipo = intoleranteLactose ? "semLactose" : praticaExercicio ? "atleta" : "base";
 
-    const novaDieta: Record<string, Record<string, string>> = {};
+    const novaDieta: Record<string, Record<string, string[]>> = {};
     for (const refeicao of Object.keys(alimentos)) {
       const refeicaoFormatada = refeicao
         .replace("cafeDaManha", "Café da Manhã")
@@ -279,43 +298,74 @@ export default function PacienteDetalhes() {
       diasSemana.forEach((dia) => {
         const opcoes = alimentos[refeicao as keyof typeof alimentos][tipo];
         const escolha = opcoes[Math.floor(Math.random() * opcoes.length)];
-        novaDieta[refeicaoFormatada][dia] = escolha;
+        novaDieta[refeicaoFormatada][dia] = [escolha];
       });
     }
     setDietaGerada(novaDieta);
-    // salvarDietaNoFirebase(novaDieta); !!!!!!! Rever aqui
+    console.log("Chamando salvarDietaNoFirebase...", novaDieta);
+    salvarDietaNoFirebase(novaDieta); 
   };
 
-    const salvarDietaNoFirebase = async (dieta: Record<string, string[]>) => {
-    if (!pacienteId) return;
+  const atualizarDieta = (refeicao: string, dia: string, novoValor: string) => {
+    setDietaGerada((dietaAtual) => {
+      if (!dietaAtual) return null;
 
-    const dietaRef = doc(db, "dietas", pacienteId); 
+      return {
+        ...dietaAtual,
+        [refeicao]: {
+          ...dietaAtual[refeicao],
+          [dia]: [novoValor], // Aqui está a correção! Garantindo que seja um array
+        },
+      };
+    });
+  };
+
+  const salvarDietaEditada = async () => {
+    if (!pacienteId || !dietaGerada) return;
+
+    const dietaRef = doc(db, "dietas", pacienteId);
 
     try {
       await setDoc(dietaRef, {
         pacienteId,
-        dieta,
-        dataGeracao: new Date()
+        dieta: dietaGerada, // Salvar a versão editada
+        dataGeracao: new Date(),
       });
-      console.log("Dieta salva com sucesso no Firebase!");
+
+      setEditandoDieta(false); // Sai do modo de edição
+      console.log("Dieta editada salva com sucesso!");
     } catch (error) {
-      console.error("Erro ao salvar dieta no Firebase:", error);
-      alert("Erro ao salvar a dieta no Firebase.");
+      console.error("Erro ao salvar dieta editada:", error);
+      alert("Erro ao salvar a dieta editada.");
     }
   };
 
-  const salvarDietaEditada = async () => {
-    if (!pacienteId || !dietaEditada) return;
-    const ref = doc(db, "dietas", pacienteId);
-    await setDoc(ref, {
-      pacienteId,
-      dieta: dietaEditada,
-      dataGeracao: new Date()
-    });
-    setDietaSalva(dietaEditada);
-    setEditandoDieta(false);
-    alert("Dieta atualizada com sucesso!");
+  const carregarDietaDoFirebase = async (pacienteId: string) => {
+    if (!pacienteId) return;
+
+    try {
+      const dietaRef = doc(db, "dietas", pacienteId);
+      const docSnap = await getDoc(dietaRef);
+
+      if (docSnap.exists()) {
+        const dadosDieta = docSnap.data()?.dieta;
+        setDietaGerada(dadosDieta);
+        console.log("Dieta carregada:", dadosDieta);
+      } else {
+        console.log("Nenhuma dieta encontrada para este paciente.");
+      }
+    } catch (error) {
+      console.error("Erro ao carregar dieta do Firebase:", error);
+    }
   };
+
+  useEffect(() => {
+    if (pacienteId) {
+      carregarDietaDoFirebase(pacienteId);
+      carregarNotasNutricionista(pacienteId)
+    }
+  }, [pacienteId]);
+
 
   const salvarAnamneseEditada = async () => {
     try {
@@ -336,6 +386,40 @@ export default function PacienteDetalhes() {
       alert("Erro ao atualizar anamnese.");
     }
   };
+
+  const salvarNotasNutricionista = async () => {
+    if (!pacienteId) return;
+
+    const pacienteRef = doc(db, "pacientes", pacienteId);
+
+    try {
+      await updateDoc(pacienteRef, { notasNutricionista });
+      console.log("Notas do nutricionista salvas com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar notas do nutricionista:", error);
+      alert("Erro ao salvar as observações.");
+    }
+  };
+
+  const carregarNotasNutricionista = async (pacienteId: string) => {
+  if (!pacienteId) return;
+
+  try {
+    const pacienteRef = doc(db, "pacientes", pacienteId);
+    const docSnap = await getDoc(pacienteRef);
+
+    if (docSnap.exists()) {
+      const notas = docSnap.data()?.notasNutricionista || "";
+      setNotasNutricionista(notas);
+      console.log("Observações carregadas:", notas);
+    } else {
+      console.log("Nenhuma observação encontrada para este paciente.");
+    }
+  } catch (error) {
+    console.error("Erro ao carregar observações:", error);
+  }
+};
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -370,7 +454,6 @@ export default function PacienteDetalhes() {
           <p><strong>CPF:</strong> {paciente?.cpf}</p>
           <p><strong>ID:</strong> {paciente?.pacienteId}</p>
           <button onClick={() => navigate(-1)} className="btn-voltar">Voltar</button>
-          <button onClick={gerarDietaComBase} className="botao-gerar-dieta">Gerar Dieta Baseada na Anamnese</button>
         </div>
 
         <div className="cards-topo">
@@ -436,14 +519,27 @@ export default function PacienteDetalhes() {
           </div>
 
           <div className="card-info">
-            <h3>Observações</h3>
-            <p>Pacientes que praticam atividades físicas regularmente possuem maior adesão aos planos alimentares.</p>
+            <h3>Gerar Dieta</h3>
+            <p>Com base nos dados da anamnese, este plano alimentar foi estruturado para atender às necessidades individuais do paciente, considerando seus objetivos, nível de atividade física e indicadores nutricionais.</p>
+            <div style={{textAlign:"center"}}>
+              <button onClick={gerarDietaComBase} className="botao-gerar-dieta">Gerar Dieta Baseada na Anamnese</button>
+            </div>
           </div>
           
 
           <div className="card-info">
             <h3>Observações</h3>
-            <p>Pacientes que praticam atividades físicas regularmente possuem maior adesão aos planos alimentares.</p>
+            <textarea 
+              className="bloco-notas"
+              value={notasNutricionista}
+              onChange={(e) => setNotasNutricionista(e.target.value)}
+              placeholder="Escreva suas observações sobre o paciente aqui..."
+            />
+            <div className="observacao">
+              <button onClick={salvarNotasNutricionista} className="botao-gerar-dieta">
+                Salvar Observações
+              </button>
+            </div>
           </div>
         </div>
 
@@ -471,9 +567,9 @@ export default function PacienteDetalhes() {
             📄 Exportar em PDF
           </button>
           {editandoDieta ? (
-            <button onClick={salvarDietaEditada} className="botao-ver-mais">Salvar Dieta</button>
+            <button onClick={salvarDietaEditada} className="botao-exportar">Salvar Dieta</button>
           ) : (
-            <button onClick={() => setEditandoDieta(true)} className="botao-ver-mais">✏️ Editar Dieta</button>
+            <button onClick={() => setEditandoDieta(true)} className="botao-exportar">✏️ Editar Dieta</button>
           )}
           {(dietaGerada || dietaSalva) ? (
             <table className="tabela-dieta" id="tabela-dieta-pdf">
@@ -485,16 +581,29 @@ export default function PacienteDetalhes() {
                   ))}
                 </tr>
               </thead>
-              <tbody>
-                {Object.entries(dietaGerada || dietaSalva!).map(([refeicao, dias]) => (
-                  <tr key={refeicao}>
-                    <td><strong>{refeicao}</strong></td>
-                    {diasSemana.map((dia) => (
-                      <td key={dia}>{dias[dia]}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
+                <tbody>
+                  {ordemRefeicoes.map((refeicao) => (
+                    dietaGerada?.[refeicao] ? (
+                      <tr key={refeicao}>
+                        <td><strong>{refeicao}</strong></td>
+                        {diasSemana.map((dia) => (
+                          <td key={dia}>
+                            {editandoDieta ? (
+                              <input 
+                                type="text" 
+                                value={dietaGerada[refeicao]?.[dia]?.[0] || ""} // Garantindo compatibilidade com string[]
+                                onChange={(e) => atualizarDieta(refeicao, dia, e.target.value)} 
+                                className="input-dieta"
+                              />
+                            ) : (
+                              dietaGerada[refeicao]?.[dia]?.[0] || "" // Exibe corretamente sem erro de tipo
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ) : null
+                  ))}
+                </tbody>
             </table>
           ) : <p>Nenhuma dieta gerada ainda.</p>}
         </div>
