@@ -9,6 +9,8 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  setDoc,
+  getDoc,
 } from "firebase/firestore";
 import {
   LineChart,
@@ -39,6 +41,9 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
   const [peso, setPeso] = useState("");
   const [gordura, setGordura] = useState("");
   const [editandoId, setEditandoId] = useState<string | null>(null);
+  const [pesoIdeal, setPesoIdeal] = useState(Number );
+  const [gorduraIdeal, setGorduraIdeal] = useState(Number);
+
 
   const carregarDados = async () => {
     const q = query(collection(db, "evolucoes"), where("pacienteId", "==", pacienteId));
@@ -85,6 +90,28 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
     carregarDados();
   };
 
+  const salvarMetas = async () => {
+    if (!pacienteId) return;
+    
+    const docRef = doc(db, "metas", pacienteId);
+    await setDoc(docRef, { pesoIdeal, gorduraIdeal }, { merge: true });
+  };
+
+  useEffect(() => {
+    const carregarMetas = async () => {
+      const docRef = doc(db, "metas", pacienteId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const { pesoIdeal, gorduraIdeal } = docSnap.data();
+        setPesoIdeal(pesoIdeal);
+        setGorduraIdeal(gorduraIdeal);
+      }
+    };
+
+    if (pacienteId) carregarMetas();
+  }, [pacienteId]);
+
+
   const atualizarCampo = (id: string, campo: keyof Evolucao, valor: string) => {
     setEvolucoes((prev) =>
       prev.map((e) => (e.id === id ? { ...e, [campo]: campo === "data" ? valor : parseFloat(valor) } : e))
@@ -104,6 +131,8 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
             <Legend />
             <Line type="monotone" dataKey="peso" stroke="#8884d8" name="Peso (kg)" />
             <Line type="monotone" dataKey="gordura" stroke="#82ca9d" name="% Gordura" />
+              <Line type="monotone" dataKey={() => pesoIdeal} stroke="red" name="Peso Ideal (kg)" dot={false} strokeDasharray="5 5" />
+              <Line type="monotone" dataKey={() => gorduraIdeal} stroke="blue" name="Gordura Ideal (%)" dot={false} strokeDasharray="5 5" />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -111,8 +140,27 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
       <div className="cards-grid">
         <div className="card-info">
           <h3>Meta</h3>
-          <p><strong>Peso Ideal:</strong> 75kg</p>
-          <p><strong>Gordura Ideal:</strong> 12%</p>
+          <div className="metas">
+            <div>
+              <strong>Peso Ideal (Kg):</strong>
+                <input 
+                  type="number" 
+                  value={pesoIdeal} 
+                  onChange={(e) => setPesoIdeal(Number(e.target.value))} 
+                  className="input-meta"
+                />
+            </div>
+            <div>
+              <strong>Gordura Ideal (%):</strong>
+              <input 
+                type="number" 
+                value={gorduraIdeal} 
+                onChange={(e) => setGorduraIdeal(Number(e.target.value))}
+                className="input-meta"
+              />
+            </div>
+          </div>
+          <button className="botao-verde" onClick={salvarMetas}>Salvar Metas</button>
         </div>
 
         <div className="card-info">

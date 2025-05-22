@@ -132,3 +132,16 @@
   gap: 10px;
   text-align: center;
 }
+.div-ideal{
+  display: flex;
+  align-items: center;
+}
+.metas{
+  padding-bottom: 5%;
+}
+.input-meta{
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
