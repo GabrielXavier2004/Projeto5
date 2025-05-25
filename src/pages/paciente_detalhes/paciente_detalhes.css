@@ -1,4 +1,17 @@
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .cards-topo {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
     display: flex;
     gap: 20px;
     margin-top: 30px;

@@ -1,4 +1,17 @@
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .cadastro-paciente-container {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
     max-width: 400px;
     margin: 40px auto;
     padding: 20px;

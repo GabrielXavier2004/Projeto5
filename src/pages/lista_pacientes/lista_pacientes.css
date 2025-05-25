@@ -1,4 +1,17 @@
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .lista-pacientes-container {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
     max-width: 1000px;
     margin: 60px auto;
     padding: 32px;
