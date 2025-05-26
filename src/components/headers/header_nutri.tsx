@@ -11,9 +11,8 @@ const HeaderNutri: React.FC = () => {
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link to="/perfil_nutricionista"><img src={logo} alt="Logo" className="logo" /></Link>
           <nav className="menu">
-            <Link to="../lista_paciente">Pacientes</Link>
             <Link to="/perfil_nutricionista">Home</Link>
-            <Link to="../../minhaDieta_paciente">Minha Dieta</Link>
+            <Link to="../lista_paciente">Pacientes</Link>
             <Link to="../agenda">Agenda</Link>
           </nav>
         </div>

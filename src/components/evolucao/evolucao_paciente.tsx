@@ -44,6 +44,12 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
   const [pesoIdeal, setPesoIdeal] = useState(Number );
   const [gorduraIdeal, setGorduraIdeal] = useState(Number);
 
+  const formatarData = (data: string): string => {
+    if (!data) return "Data inválida";
+
+    const partes = data.split("-");
+    return `${partes[2]}/${partes[1]}/${partes[0]}`; // Converte "YYYY-MM-DD" para "DD/MM/YYYY"
+  };
 
   const carregarDados = async () => {
     const q = query(collection(db, "evolucoes"), where("pacienteId", "==", pacienteId));
@@ -125,9 +131,9 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={evolucoes} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="data" />
+            <XAxis dataKey="data" tickFormatter={(data) => formatarData(data)} />
             <YAxis />
-            <Tooltip />
+            <Tooltip/>
             <Legend />
             <Line type="monotone" dataKey="peso" stroke="#8884d8" name="Peso (kg)" />
             <Line type="monotone" dataKey="gordura" stroke="#82ca9d" name="% Gordura" />
@@ -167,7 +173,7 @@ export default function EvolucaoPaciente({ pacienteId }: Props) {
           <h3>Última Entrada</h3>
           {evolucoes.length > 0 ? (
             <>
-              <p><strong>Data:</strong> {evolucoes.at(-1)?.data}</p>
+              <p><strong>Data:</strong> {evolucoes.at(-1) ? formatarData(evolucoes.at(-1)?.data || "") : "Sem registro"}</p>
               <p><strong>Peso:</strong> {evolucoes.at(-1)?.peso} kg</p>
               <p><strong>Gordura:</strong> {evolucoes.at(-1)?.gordura}%</p>
             </>

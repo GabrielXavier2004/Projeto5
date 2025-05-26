@@ -23,7 +23,7 @@ export default function App() {
           <Route path="/login_nutricionista" element={<LoginNutricionista />} />
           <Route path="/perfil_paciente" element={<PerfilPaciente />} />
           <Route path="/perfil_nutricionista" element={<PerfilNutricionista />} />
-          <Route path="/minhaDieta_paciente" element={<MinhaDietaPaciente />} />
+          <Route path="/minha_dieta/:pacienteId" element={<MinhaDietaPaciente />} />
           <Route path="/token" element={<Sem_Token />} />
           <Route path="/anamnese" element={<AnamneseForm />} />
           <Route path="/cadastro_nutricionista" element={<CadastroNutricionista />} />

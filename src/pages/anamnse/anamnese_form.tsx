@@ -20,6 +20,7 @@ export default function AnamneseForm() {
   const [anamneseExistente, setAnamneseExistente] = useState(false);
   const [anamneseCarregada, setAnamneseCarregada] = useState(false);
   const navigate = useNavigate();
+  const etapaFinal = 6;
 
   useEffect(() => {
     const buscarAnamnese = async () => {
@@ -97,13 +98,11 @@ export default function AnamneseForm() {
       const q = query(collection(db, "anamneses"), where("pacienteId", "==", pacienteId));
       const querySnapshot = await getDocs(q);
   
-      // Se já existir anamnese, exclui
       if (!querySnapshot.empty) {
         const docId = querySnapshot.docs[0].id;
         await deleteDoc(doc(db, "anamneses", docId));
       }
   
-      // Salva nova anamnese
       await addDoc(collection(db, "anamneses"), {
         pacienteId,
         respostas: formData,
@@ -268,13 +267,37 @@ export default function AnamneseForm() {
       <h2 className="form-subtitulo">{etapas[etapaAtual]}</h2>
       {renderEtapa()}
       <div className="form-navegacao">
-        {etapaAtual > 0 && <button className="btn-voltar" onClick={handleEtapaAnterior}>Voltar</button>}
-        {etapaAtual < etapas.length - 1 && (
-          <button className="btn-avancar" onClick={handleProximaEtapa}>Avançar</button>
-        )}
-        {etapaAtual === etapas.length - 1 && (
-          <button className="btn-enviar" onClick={enviarAnamnese}>Enviar</button>
-        )}
+        <button 
+          onClick={() => setEtapaAtual(etapaAtual === etapaFinal ? 1 : etapaAtual - 1)} 
+          disabled={etapaAtual === 1}
+          className="btn-voltar"
+        >
+          {etapaAtual === etapaFinal ? "Refazer Anamnese" : "Voltar"}
+        </button>
+        <div style={{display:"flex"}}>
+          <div style={{marginRight:"5px"}}>
+            {etapaAtual === etapaFinal && (
+              <button 
+                onClick={() => navigate("/perfil_paciente")} 
+                className="btn-voltar"
+              >
+                Voltar para Informações
+              </button>
+            )}
+          </div>
+          <button 
+            onClick={() => {
+              if (etapaAtual === etapaFinal) {
+                enviarAnamnese(); 
+              } else {
+                setEtapaAtual(etapaAtual + 1); 
+              }
+            }}
+            className="btn-enviar"
+          >
+            {etapaAtual === etapaFinal ? "Enviar" : "Avançar"}
+          </button>
+        </div>
       </div>
     </div>
   );

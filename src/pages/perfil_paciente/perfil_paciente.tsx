@@ -29,10 +29,10 @@ export default function PerfilPaciente() {
         <h2>Olá {nome || "Paciente"}!</h2>
 
         <div className="card-container">
-          <Link to="/minhaDieta_paciente" className="card">
-            <img src={dietaIcon} alt="Minha Dieta" />
-            <span>Minha Dieta</span>
-          </Link>
+        <Link to={`/minha_dieta/${localStorage.getItem("pacienteId")}`} className="card">
+          <img src={dietaIcon} alt="Minha Dieta" />
+          <span>Minha Dieta</span>
+        </Link>
           <Link to="/anamnese" className="card">
             <img src={iaIcon} alt="IA" />
             <span>Anamnese</span>
