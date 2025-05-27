@@ -125,12 +125,11 @@
 
 .card span {
     font-weight: bold;
-    font-size: 2.5vh;
+    font-size: 24px;
     text-align: center;
     color: #000000;
 }
 
-/* Link "Voltar para o Início" */
 .perfil-main a {
     text-decoration: none;
     color: #65D775;

@@ -39,7 +39,6 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Bloco 2 invertido */}
                 <div className="bloco-funcionalidade invertido">
                     <div className="func-img">
                     <img src={plano_alimentar} alt="Planos Alimentares com IA" />
@@ -50,7 +49,6 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Bloco 3 */}
                 <div className="bloco-funcionalidade">
                     <div className="func-img">
                     <img src={receitas} alt="Agendamento Inteligente" />
@@ -78,7 +76,7 @@ export default function Home() {
                     <div className="footer-item">
                         <p className="footer-titulo">Contato</p>
                         <p><a href="" className="footer-sub">1191234-5678</a></p>
-                        <p><a href="" className="footer-sub">contato@gmail.com</a></p>
+                        <p><a href="" className="footer-sub">nutrihub@gmail.com</a></p>
                     </div>
                 </div>
                 <div className="copyrights">
