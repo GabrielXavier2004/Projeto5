@@ -3,6 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
 import "./biblioteca.css";
 import Header from "../../components/headers/header_paciente";
+import { Link } from "react-router-dom";
 
 interface Receita {
   id: string;
@@ -53,73 +54,78 @@ export default function ReceitasList() {
 });
 
   return (
-    <div className="receitas-container">
-    <Header />
-      <div className="receitas-header">
-        <h2>Receitas Fit</h2>
-        <input
-          type="text"
-          placeholder="Buscar por título ou refeição..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-          className="barra-pesquisa"
-        />
-      </div>
+    <div>
+        <header className="perfil-header">
+        <Header />
+        <Link to="/"><button className="logout-button">Logout</button></Link>
+      </header>
+        <div className="receitas-container">
+        <div className="receitas-header">
+            <h2>Receitas Fit</h2>
+            <input
+            type="text"
+            placeholder="Buscar por título ou refeição..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            className="barra-pesquisa"
+            />
+        </div>
 
-      {opcoesRefeicao.map((refeicao) => {
-        const receitasPorRefeicao = receitasFiltradas.filter(
-          (r) => r.refeicao === refeicao
-        );
+        {opcoesRefeicao.map((refeicao) => {
+            const receitasPorRefeicao = receitasFiltradas.filter(
+            (r) => r.refeicao === refeicao
+            );
 
-        if (receitasPorRefeicao.length === 0) return null;
+            if (receitasPorRefeicao.length === 0) return null;
 
-        return (
-          <div key={refeicao} className="grupo-refeicao">
-            <h3>{refeicao}</h3>
-            <ul className="lista-receitas">
-              {receitasPorRefeicao.map((receita) => (
-                <li key={receita.id} className="receita-card">
-                  <div
-                    className="receita-titulo"
-                    onClick={() => toggleReceita(receita.id)}
-                  >
-                    <span>{receita.titulo}</span>
-                    <span
-                      className={`seta ${abertaId === receita.id ? "aberta" : ""}`}
+            return (
+            <div key={refeicao} className="grupo-refeicao">
+                <h3>{refeicao}</h3>
+                <ul className="lista-receitas">
+                {receitasPorRefeicao.map((receita) => (
+                    <li key={receita.id} className="receita-card">
+                    <div
+                        className="receita-titulo"
+                        onClick={() => toggleReceita(receita.id)}
                     >
-                      ▼
-                    </span>
-                  </div>
-
-                  {abertaId === receita.id && (
-                    <div className="receita-detalhes">
-                      <p>
-                        <strong>Ingredientes:</strong>
-                      </p>
-                      <ul>
-                        {(typeof receita.ingredientes === "string"
-                          ? receita.ingredientes.split(",")
-                          : receita.ingredientes
-                        ).map((item, index) => (
-                          <li key={index}>{item.trim()}</li>
-                        ))}
-                      </ul>
-                      <p>
-                        <strong>Modo de preparo:</strong> {receita.modoPreparo}
-                      </p>
-                      {receita.calorias && (
-                        <p>
-                          <strong>Calorias:</strong> {receita.calorias}
-                        </p>
-                      )}
+                        <span>{receita.titulo}</span>
+                        <span
+                        className={`seta ${abertaId === receita.id ? "aberta" : ""}`}
+                        >
+                        ▼
+                        </span>
                     </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
+
+                    {abertaId === receita.id && (
+                        <div className="receita-detalhes">
+                        <p>
+                            <strong>Ingredientes:</strong>
+                        </p>
+                        <ul>
+                            {(typeof receita.ingredientes === "string"
+                            ? receita.ingredientes.split(",")
+                            : receita.ingredientes
+                            ).map((item, index) => (
+                            <li key={index}>{item.trim()}</li>
+                            ))}
+                        </ul>
+                        <p>
+                            <strong>Modo de preparo:</strong> {receita.modoPreparo}
+                        </p>
+                        {receita.calorias && (
+                            <p>
+                            <strong>Calorias:</strong> {receita.calorias}
+                            </p>
+                        )}
+                        </div>
+                    )}
+                    </li>
+                ))}
+                </ul>
+            </div>
+            );
+        })}
+        </div>
     </div>
   );
 }
