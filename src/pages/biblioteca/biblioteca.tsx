@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
 import "./biblioteca.css";
+import Header from "../../components/headers/header_paciente";
 
 interface Receita {
   id: string;
@@ -53,6 +54,7 @@ export default function ReceitasList() {
 
   return (
     <div className="receitas-container">
+    <Header />
       <div className="receitas-header">
         <h2>Receitas Fit</h2>
         <input
