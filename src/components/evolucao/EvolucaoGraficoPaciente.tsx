@@ -63,7 +63,7 @@ export default function EvolucaoGraficoPaciente({ pacienteId }: Props) {
 
   return (
     <div className="evolucao-grafico">
-      <h3>Evolução do Paciente</h3>
+      <h3>Minha Evolução</h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={evolucoes} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />

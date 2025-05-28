@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import './perfil_nutricionista.css';
 import { Link } from "react-router-dom";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
 import HeaderNutri from "../../components/headers/header_nutri";
-import userIcon from '../../content/user_icon.png';
+import userIcon from '../../content/fotonutri.png';
 import pacientesIcon from '../../content/paciente_icon.png';
 import iaIcon from '../../content/ia_icon.png';
 import agendaIcon from '../../content/agenda_icon.png';
 
 export default function PerfilNutricionista() {
   const [nomeNutri, setNomeNutri] = useState("Carregando...");
+
 
   useEffect(() => {
     const fetchNutri = async () => {

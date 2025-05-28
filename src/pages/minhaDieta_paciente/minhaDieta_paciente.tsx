@@ -55,7 +55,6 @@ useEffect(() => {
       </header>
 
       <main className="minha-dieta-main">
-        <h1>Informações Gerais</h1>
         <div className="card-info">
             <EvolucaoGraficoPaciente pacienteId={pacienteId || ""} />
         </div>

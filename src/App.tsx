@@ -12,6 +12,7 @@ import CadastroNutricionista from "./pages/cadastro_nutricionista/cadastro_nutri
 import CadastroPaciente from "./pages/cadastro_paciente/cadastro_paciente";
 import ListaPacientes from "./pages/lista_pacientes/lista_pacientes";
 import PacienteDetalhes from "./pages/paciente_detalhes/paciente_detalhes";
+import ReceitasList from "./pages/biblioteca/biblioteca";
 
 export default function App() {
 
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/cadastro_paciente" element={<CadastroPaciente />} />
           <Route path="/lista_paciente" element={<ListaPacientes />} />
           <Route path="/paciente/:pacienteId" element={<PacienteDetalhes />} />
+          <Route path="/biblioteca" element={<ReceitasList />} />
         </Routes>
     </Router>
   );

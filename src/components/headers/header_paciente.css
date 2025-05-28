@@ -3,7 +3,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 2rem;
-    background-color: #fff;
+    background-color: #fff; 
+    border-bottom-left-radius: 20px; 
+    border-bottom-right-radius: 20px; 
 }
 
 .logo {
@@ -13,7 +15,7 @@
 
 .menu {
     display: flex;
-    gap: 3rem;
+    gap: 2rem;
     font-weight: bold;
 }
 
@@ -23,10 +25,32 @@
     font-size: 1rem;
     font-weight: bold;
     transition: color 0.3s ease;
-  }
-  
+}
+
 .menu a:hover {
     color: #65D775;
+}
+
+.icons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.icons img {
+    width: 24px;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-info img {
+    width: 40px;
+    border-radius: 50%;
 }
 
 .logout-button {
@@ -37,6 +61,7 @@
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {

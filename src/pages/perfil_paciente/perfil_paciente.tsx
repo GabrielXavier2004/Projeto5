@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './perfil_paciente.css';
 import { Link } from "react-router-dom";
 import Header from '../../components/headers/header_paciente';
-import userIcon from '../../content/user_icon.png';
+import userIcon from '../../content/fotoperfil.png';
 import dietaIcon from '../../content/dieta_icon.png';
 import iaIcon from '../../content/ia_icon.png';
 import agendaIcon from '../../content/agenda_icon.png';
@@ -31,15 +31,15 @@ export default function PerfilPaciente() {
         <div className="card-container">
         <Link to={`/minha_dieta/${localStorage.getItem("pacienteId")}`} className="card">
           <img src={dietaIcon} alt="Minha Dieta" />
-          <span>Minha Dieta</span>
+          <h2>Minha Dieta</h2>
         </Link>
           <Link to="/anamnese" className="card">
             <img src={iaIcon} alt="IA" />
-            <span>Anamnese</span>
+            <h2>Anamnese</h2>
           </Link>
-          <Link to="/agenda_paciente" className="card">
+          <Link to="/biblioteca" className="card">
             <img src={agendaIcon} alt="Agenda" />
-            <span>Agenda</span>
+            <h2>Biblioteca de Alimentos</h2>
           </Link>
         </div>
       </main>
