@@ -11,7 +11,7 @@ const Header: React.FC = () => {
         <nav className="menu">
           <Link to="../../perfil_paciente">Home</Link>
           <Link to={`/minha_dieta/${localStorage.getItem("pacienteId")}`}>Minha Dieta</Link>
-          <Link to="../agenda">Agenda</Link>
+          <Link to="../biblioteca_paciente">Biblioteca de Alimentos</Link>
         </nav>
       </div>
     </header>

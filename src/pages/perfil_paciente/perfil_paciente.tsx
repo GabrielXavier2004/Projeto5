@@ -37,7 +37,7 @@ export default function PerfilPaciente() {
             <img src={iaIcon} alt="IA" />
             <h2>Anamnese</h2>
           </Link>
-          <Link to="/biblioteca" className="card">
+          <Link to="/biblioteca_paciente" className="card">
             <img src={agendaIcon} alt="Agenda" />
             <h2>Biblioteca de Alimentos</h2>
           </Link>

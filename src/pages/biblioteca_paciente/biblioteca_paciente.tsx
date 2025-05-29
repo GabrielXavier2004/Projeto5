@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../components/firebase/firebaseConfig";
-import "./biblioteca.css";
+import "./biblioteca_paciente.css";
 import Header from "../../components/headers/header_paciente";
 import { Link } from "react-router-dom";
 

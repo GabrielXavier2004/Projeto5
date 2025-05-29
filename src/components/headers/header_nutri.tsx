@@ -14,6 +14,7 @@ const HeaderNutri: React.FC = () => {
             <Link to="/perfil_nutricionista">Home</Link>
             <Link to="../lista_paciente">Pacientes</Link>
             <Link to="../agenda">Agenda</Link>
+            <Link to="../biblioteca_nutri">Biblioteca de Alimentos</Link>
           </nav>
         </div>
         <Link to="/"><button className="logout-button">Logout</button></Link>
