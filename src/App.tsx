@@ -14,6 +14,7 @@ import ListaPacientes from "./pages/lista_pacientes/lista_pacientes";
 import PacienteDetalhes from "./pages/paciente_detalhes/paciente_detalhes";
 import ReceitasList from "./pages/biblioteca_paciente/biblioteca_paciente";
 import ReceitasListNutri from "./pages/biblioteca_nutri/biblioteca_nutri";
+import Agenda from "./pages/agenda/agenda";
 
 export default function App() {
 
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/paciente/:pacienteId" element={<PacienteDetalhes />} />
           <Route path="/biblioteca_paciente" element={<ReceitasList />} />
           <Route path="/biblioteca_nutri" element={<ReceitasListNutri />} />
+          <Route path="/agenda" element={<Agenda />} />
         </Routes>
     </Router>
   );
