@@ -119,7 +119,7 @@ export const AgendaPage: React.FC = () => {
         <Collapse in={isFormOpen}>
           <div className="form-container">
             <form onSubmit={handleSubmit}>
-              <div className="input-group">
+              <div className="agenda-input-wrapper">
                 <TextField
                   fullWidth
                   label="Nome do Paciente"
@@ -127,10 +127,12 @@ export const AgendaPage: React.FC = () => {
                   value={formData.paciente}
                   onChange={handleInputChange}
                   required
+                  sx={{ backgroundColor: 'white', borderRadius: '4px' }}
+                  className="date-time-field"
                 />
               </div>
 
-              <div className="input-group">
+              <div className="agenda-input-wrapper">
                 <TextField
                   fullWidth
                   label="Telefone"
@@ -138,10 +140,12 @@ export const AgendaPage: React.FC = () => {
                   value={formData.telefone}
                   onChange={handleInputChange}
                   required
+                  sx={{ backgroundColor: 'white', borderRadius: '4px' }}
+                  className="date-time-field"
                 />
               </div>
 
-              <div className="input-group">
+              <div className="agenda-input-wrapper">
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
                   <DatePicker
                     label="Data da Consulta"
@@ -160,7 +164,7 @@ export const AgendaPage: React.FC = () => {
                 </LocalizationProvider>
               </div>
 
-              <div className="input-group">
+              <div className="agenda-input-wrapper">
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
                   <TimePicker
                     label="Horário"
@@ -179,7 +183,7 @@ export const AgendaPage: React.FC = () => {
                 </LocalizationProvider>
               </div>
 
-              <div className="input-group">
+              <div className="agenda-input-wrapper">
                 <TextField
                   fullWidth
                   label="Observações"
@@ -188,7 +192,8 @@ export const AgendaPage: React.FC = () => {
                   onChange={handleInputChange}
                   multiline
                   rows={4}
-                  className="observation-field"
+                  sx={{ backgroundColor: 'white', borderRadius: '4px' }}
+                  className="date-time-field"
                 />
               </div>
 

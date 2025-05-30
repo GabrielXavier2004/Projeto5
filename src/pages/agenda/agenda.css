@@ -11,158 +11,104 @@
 }
 
 .agenda-container {
-    opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards;
-    min-height: 100vh;
-    background-color: #f5f7fa;
-    padding: 2rem;
     display: flex;
-    flex-direction: column;
     gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 /* Estilos para o container de próximas consultas */
 .proximas-consultas {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    padding: 2rem;
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .section-header h2 {
-    color: #333;
     margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
 }
 
 /* Estilos para o botão de adicionar */
 .botao-adicionar {
     background-color: #65D775 !important;
     color: white !important;
-    border-radius: 20px !important;
-    padding: 8px 24px !important;
     text-transform: none !important;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .botao-adicionar:hover {
-    background-color: #45a049 !important;
+    background-color: #388e3c !important;
 }
 
 /* Estilos para o formulário dropdown */
 .form-container {
-    background-color: white;
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.form-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.input-group {
-    width: 100%;
+.agenda-input-wrapper {
     margin-bottom: 1rem;
-    text-align: left;
 }
 
-.input-group label {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 0.5rem;
-    display: block;
+/* Estilo unificado para todos os campos do formulário */
+.date-time-field {
+    background-color: white !important;
+    border-radius: 4px !important;
 }
 
-/* Estilo para os inputs do Material-UI */
-.input-group .MuiInputBase-root {
+.MuiTextField-root.date-time-field {
     width: 100%;
+}
+
+.MuiTextField-root.date-time-field .MuiOutlinedInput-root {
     background-color: white;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
-.input-group .MuiInputBase-input {
-    color: #333;
-    font-size: 1rem;
-    padding: 10px;
+.MuiTextField-root.date-time-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #65D775
 }
 
-.input-group .MuiOutlinedInput-notchedOutline {
-    border: 2px solid #ccc;
-}
-
-.input-group .MuiInputLabel-root {
-    color: #333;
-}
-
-.input-group .MuiInputLabel-root.Mui-focused {
-    color: #65D775;
-}
-
-.input-group .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-    border-color: #45a049;
-}
-
-.input-group .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.MuiTextField-root.date-time-field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: #65D775;
     border-width: 2px;
 }
 
 /* Remove o asterisco vermelho dos campos obrigatórios */
-.input-group .MuiFormLabel-asterisk {
-    color: #333;
-}
-
-/* Estilos específicos para os campos de data e hora */
-.date-time-field {
-    width: 100%;
-    background-color: white;
-    border-radius: 5px;
-}
-
-.date-time-field .MuiInputBase-root {
-    background-color: white;
-}
-
-.observation-field {
-    width: 100%;
-    background-color: white !important;
-    border-radius: 5px;
-    min-height: 120px;
+.MuiFormLabel-asterisk {
+    color: rgba(0, 0, 0, 0.54) !important;
 }
 
 /* Estilos para a lista de consultas */
 .consultas-list {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .consulta-item {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem !important;
     padding: 1rem !important;
-    background-color: #f8f9fa;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #fff;
+    transition: all 0.3s ease;
 }
 
 .consulta-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .consulta-info {
@@ -176,19 +122,20 @@
 .consulta-datetime {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .consulta-icon {
-    color: #65D775;
+    color: #757575;
 }
 
 /* Estilos para o calendário */
 .calendario-container {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    padding: 2rem;
+    width: 360px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .calendario-container h2 {
@@ -199,26 +146,20 @@
 
 .calendario {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+    border-radius: 8px;
 }
 
 /* Estilos para o botão de agendar */
 .botao-agendar {
     background-color: #65D775 !important;
     color: white !important;
-    padding: 10px 20px !important;
-    font-size: 1rem !important;
-    border: none !important;
-    border-radius: 20px !important;
-    cursor: pointer;
-    width: 25vh !important;
-    margin: 1rem auto 0 !important;
-    display: block !important;
+    padding: 0.8rem !important;
+    margin-top: 1rem !important;
+    text-transform: none !important;
 }
 
 .botao-agendar:hover {
-    background-color: #45a049 !important;
+    background-color: #388e3c !important;
 }
 
 /* Estilos para o snackbar de sucesso */
@@ -227,33 +168,12 @@
 }
 
 /* Responsividade */
-@media (max-width: 600px) {
+@media (max-width: 960px) {
     .agenda-container {
-        padding: 1rem;
+        flex-direction: column;
     }
 
-    .proximas-consultas,
     .calendario-container {
-        padding: 1rem;
-    }
-
-    .section-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
-    }
-
-    .consulta-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-
-    .form-container {
-        padding: 1rem;
-    }
-
-    .botao-agendar {
-        width: 100% !important;
+        width: 100%;
     }
 }
