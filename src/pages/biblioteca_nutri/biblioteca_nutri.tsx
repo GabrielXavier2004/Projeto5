@@ -92,132 +92,134 @@ export default function ReceitasListNutri() {
   };
 
   return (
-    <div>
-    <Header />
-      <div className="receitas-container">
-        <div className="receitas-header">
-          <h2>Receitas Fit</h2>
-          <input
-            type="text"
-            placeholder="Buscar por título ou refeição..."
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            className="barra-pesquisa"
-          />
+    <body style={{backgroundColor: "#eee"}}> 
+      <div>
+      <Header />
+        <div className="receitas-container" >
+          <div className="receitas-header">
+            <h2>Receitas Fit</h2>
+            <input
+              type="text"
+              placeholder="Buscar por título ou refeição..."
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              className="barra-pesquisa"
+            />
+          </div>
+
+          <div className="formulario-receita">
+          <div
+              className="formulario-titulo"
+              onClick={() => setFormAberto(!formAberto)}
+          >
+              <span>Adicionar Nova Receita</span>
+              <span>{formAberto ? "▲" : "▼"}</span>
+          </div>
+
+          {formAberto && (
+              <div className="formulario-campos">
+              <input
+                  type="text"
+                  placeholder="Título"
+                  value={novaReceita.titulo}
+                  onChange={(e) => setNovaReceita({ ...novaReceita, titulo: e.target.value })}
+              />
+              <input
+                  type="text"
+                  placeholder="Ingredientes (separados por vírgula)"
+                  value={novaReceita.ingredientes}
+                  onChange={(e) => setNovaReceita({ ...novaReceita, ingredientes: e.target.value })}
+              />
+              <input
+                  type="text"
+                  placeholder="Modo de preparo"
+                  value={novaReceita.modoPreparo}
+                  onChange={(e) => setNovaReceita({ ...novaReceita, modoPreparo: e.target.value })}
+              />
+              <input
+                  type="text"
+                  placeholder="Calorias (Ex: 120 kcal)"
+                  value={novaReceita.calorias}
+                  onChange={(e) => setNovaReceita({ ...novaReceita, calorias: e.target.value })}
+              />
+              <select
+                  value={novaReceita.refeicao}
+                  onChange={(e) => setNovaReceita({ ...novaReceita, refeicao: e.target.value })}
+              >
+                  <option value="">Selecione a refeição</option>
+                  {opcoesRefeicao.map(opcao => (
+                  <option key={opcao} value={opcao}>{opcao}</option>
+                  ))}
+              </select>
+              <button onClick={adicionarReceita} className="botao-add">
+                  Adicionar
+              </button>
+              </div>
+          )}
+          </div>
+
+          {opcoesRefeicao.map((refeicao) => {
+              const receitasFiltradas = receitas
+                  .filter(
+                  (r) =>
+                      r.refeicao === refeicao &&
+                      (r.titulo.toLowerCase().includes(busca.toLowerCase()) ||
+                      r.refeicao.toLowerCase().includes(busca.toLowerCase()))
+                  );
+
+              if (receitasFiltradas.length === 0) return null;
+
+              return (
+                  <div key={refeicao} className="grupo-refeicao">
+                  <h3>{refeicao}</h3>
+                  <ul className="lista-receitas">
+                      {receitasFiltradas.map((receita) => (
+                      <li key={receita.id} className="receita-card">
+                          <div
+                          className="receita-titulo"
+                          onClick={() => toggleReceita(receita.id ?? "")}
+                          >
+                          <span>{receita.titulo}</span>
+                          <span
+                              className={`seta ${abertaId === receita.id ? "aberta" : ""}`}
+                          >
+                              ▼
+                          </span>
+                          </div>
+
+                          {abertaId === receita.id && (
+                          <div className="receita-detalhes">
+                              <p>
+                              <strong>Ingredientes:</strong>
+                          </p>
+                          <ul>
+                              {(typeof receita.ingredientes === "string"
+                              ? receita.ingredientes.split(",")
+                              : receita.ingredientes
+                              ).map((item, index) => (
+                              <li key={index}>{item.trim()}</li>
+                              ))}
+                          </ul>
+                              <p><strong>Modo de preparo:</strong> {receita.modoPreparo}</p>
+                              <p><strong>Calorias:</strong> {receita.calorias}</p>
+                              <div style={{ display: "flex", gap: "5px" }}>
+                              <button
+                                  className="botao-delete"
+                                  onClick={() => excluirReceita(receita.id!)}
+                              >
+                                  🗑️
+                              </button>
+                              </div>
+                          </div>
+                          )}
+                      </li>
+                      ))}
+                  </ul>
+                  </div>
+              );
+              })}
         </div>
-
-        <div className="formulario-receita">
-        <div
-            className="formulario-titulo"
-            onClick={() => setFormAberto(!formAberto)}
-        >
-            <span>Adicionar Nova Receita</span>
-            <span>{formAberto ? "▲" : "▼"}</span>
-        </div>
-
-        {formAberto && (
-            <div className="formulario-campos">
-            <input
-                type="text"
-                placeholder="Título"
-                value={novaReceita.titulo}
-                onChange={(e) => setNovaReceita({ ...novaReceita, titulo: e.target.value })}
-            />
-            <input
-                type="text"
-                placeholder="Ingredientes (separados por vírgula)"
-                value={novaReceita.ingredientes}
-                onChange={(e) => setNovaReceita({ ...novaReceita, ingredientes: e.target.value })}
-            />
-            <input
-                type="text"
-                placeholder="Modo de preparo"
-                value={novaReceita.modoPreparo}
-                onChange={(e) => setNovaReceita({ ...novaReceita, modoPreparo: e.target.value })}
-            />
-            <input
-                type="text"
-                placeholder="Calorias (Ex: 120 kcal)"
-                value={novaReceita.calorias}
-                onChange={(e) => setNovaReceita({ ...novaReceita, calorias: e.target.value })}
-            />
-            <select
-                value={novaReceita.refeicao}
-                onChange={(e) => setNovaReceita({ ...novaReceita, refeicao: e.target.value })}
-            >
-                <option value="">Selecione a refeição</option>
-                {opcoesRefeicao.map(opcao => (
-                <option key={opcao} value={opcao}>{opcao}</option>
-                ))}
-            </select>
-            <button onClick={adicionarReceita} className="botao-add">
-                Adicionar
-            </button>
-            </div>
-        )}
-        </div>
-
-        {opcoesRefeicao.map((refeicao) => {
-            const receitasFiltradas = receitas
-                .filter(
-                (r) =>
-                    r.refeicao === refeicao &&
-                    (r.titulo.toLowerCase().includes(busca.toLowerCase()) ||
-                    r.refeicao.toLowerCase().includes(busca.toLowerCase()))
-                );
-
-            if (receitasFiltradas.length === 0) return null;
-
-            return (
-                <div key={refeicao} className="grupo-refeicao">
-                <h3>{refeicao}</h3>
-                <ul className="lista-receitas">
-                    {receitasFiltradas.map((receita) => (
-                    <li key={receita.id} className="receita-card">
-                        <div
-                        className="receita-titulo"
-                        onClick={() => toggleReceita(receita.id ?? "")}
-                        >
-                        <span>{receita.titulo}</span>
-                        <span
-                            className={`seta ${abertaId === receita.id ? "aberta" : ""}`}
-                        >
-                            ▼
-                        </span>
-                        </div>
-
-                        {abertaId === receita.id && (
-                        <div className="receita-detalhes">
-                            <p>
-                            <strong>Ingredientes:</strong>
-                        </p>
-                        <ul>
-                            {(typeof receita.ingredientes === "string"
-                            ? receita.ingredientes.split(",")
-                            : receita.ingredientes
-                            ).map((item, index) => (
-                            <li key={index}>{item.trim()}</li>
-                            ))}
-                        </ul>
-                            <p><strong>Modo de preparo:</strong> {receita.modoPreparo}</p>
-                            <p><strong>Calorias:</strong> {receita.calorias}</p>
-                            <div style={{ display: "flex", gap: "5px" }}>
-                            <button
-                                className="botao-delete"
-                                onClick={() => excluirReceita(receita.id!)}
-                            >
-                                🗑️
-                            </button>
-                            </div>
-                        </div>
-                        )}
-                    </li>
-                    ))}
-                </ul>
-                </div>
-            );
-            })}
       </div>
-    </div>
+    </body>
   );
 }

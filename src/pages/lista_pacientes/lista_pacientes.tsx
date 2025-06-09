@@ -100,84 +100,86 @@ export default function ListaPacientes() {
   };
 
   return (
-    <div>
-      <HeaderNutri />
-      <div className="lista-pacientes-container">
-        <div className="lista-pacientes-header">
-          <h2>Meus Pacientes</h2>
-          <div className="acoes-pacientes">
-            <input
-              type="text"
-              placeholder="Buscar por nome ou CPF"
-              value={busca}
-              onChange={handleBusca}
-              className="input-busca"
-            />
-            <Link to="/cadastro_paciente" className="botao-adicionar">+ Novo Paciente</Link>
+    <body style={{backgroundColor: "#eee", width: "100%", height: "100%"}}>
+      <div>
+        <HeaderNutri />
+        <div className="lista-pacientes-container">
+          <div className="lista-pacientes-header">
+            <h2>Meus Pacientes</h2>
+            <div className="acoes-pacientes">
+              <input
+                type="text"
+                placeholder="Buscar por nome ou CPF"
+                value={busca}
+                onChange={handleBusca}
+                className="input-busca"
+              />
+              <Link to="/cadastro_paciente" className="botao-adicionar">+ Novo Paciente</Link>
+            </div>
           </div>
-        </div>
 
-        {carregando ? (
-          <p>Carregando pacientes...</p>
-        ) : pacientesFiltrados.length === 0 ? (
-          <p>Nenhum paciente encontrado.</p>
-        ) : (
-          <ul className="lista-pacientes">
-            {pacientesFiltrados.map((paciente) => (
-              <li
-                key={paciente.id}
-                className="paciente-card"
-                onClick={() => navigate(`/paciente/${paciente.pacienteId}`)}
-                style={{ cursor: "pointer" }}
-              >
-                {paciente.modoEdicao ? (
-                  <>
-                    <input
-                      className="input-editar"
-                      value={paciente.nome}
-                      onChange={(e) => handleChange(paciente.id, "nome", e.target.value)}
-                      placeholder="Nome"
-                    />
-                    <input
-                      className="input-editar"
-                      value={paciente.cpf}
-                      onChange={(e) => handleChange(paciente.id, "cpf", e.target.value)}
-                      placeholder="CPF"
-                    />
-                    <button
-                      className="botao-salvar"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        salvarEdicao(paciente);
-                      }}
-                    >Salvar</button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className="botao-editar"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        ativarEdicao(paciente.id);
-                      }}
-                    >✏️</button>
-                    <p><strong>Nome:</strong> {paciente.nome}</p>
-                    <p><strong>CPF:</strong> {paciente.cpf}</p>
-                    <p><strong>ID do Paciente:</strong> {paciente.pacienteId}</p>
-                    <button
-                      className="botao-excluir"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        excluirPaciente(paciente.id);
-                      }}
-                    >🗑️</button>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
+          {carregando ? (
+            <p>Carregando pacientes...</p>
+          ) : pacientesFiltrados.length === 0 ? (
+            <p>Nenhum paciente encontrado.</p>
+          ) : (
+            <ul className="lista-pacientes">
+              {pacientesFiltrados.map((paciente) => (
+                <li
+                  key={paciente.id}
+                  className="paciente-card"
+                  onClick={() => navigate(`/paciente/${paciente.pacienteId}`)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {paciente.modoEdicao ? (
+                    <>
+                      <input
+                        className="input-editar"
+                        value={paciente.nome}
+                        onChange={(e) => handleChange(paciente.id, "nome", e.target.value)}
+                        placeholder="Nome"
+                      />
+                      <input
+                        className="input-editar"
+                        value={paciente.cpf}
+                        onChange={(e) => handleChange(paciente.id, "cpf", e.target.value)}
+                        placeholder="CPF"
+                      />
+                      <button
+                        className="botao-salvar"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          salvarEdicao(paciente);
+                        }}
+                      >Salvar</button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="botao-editar"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          ativarEdicao(paciente.id);
+                        }}
+                      >✏️</button>
+                      <p><strong>Nome:</strong> {paciente.nome}</p>
+                      <p><strong>CPF:</strong> {paciente.cpf}</p>
+                      <p><strong>ID do Paciente:</strong> {paciente.pacienteId}</p>
+                      <button
+                        className="botao-excluir"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          excluirPaciente(paciente.id);
+                        }}
+                      >🗑️</button>
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-    </div>
+    </body>
   );
 }

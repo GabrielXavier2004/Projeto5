@@ -9,6 +9,7 @@
     }
 }
 
+
 .lista-pacientes-container {
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
