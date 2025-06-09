@@ -163,10 +163,17 @@
   transition: background-color 0.3s, transform 0.2s;
 }
 
-.botao-gerar-dieta:hover {
+.botao-gerar-dieta:hover:not(:disabled) {
   background-color: #4CAF50;
   transform: translateY(-1px);
 }
+
+.botao-gerar-dieta:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-voltar {
   background-color: #cccccc;
   color: #333;

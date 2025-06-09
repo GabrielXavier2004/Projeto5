@@ -6,6 +6,7 @@ import EvolucaoPaciente from "../../components/evolucao/evolucao_paciente";
 import "./paciente_detalhes.css";
 import HeaderNutri from "../../components/headers/header_nutri";
 import html2pdf from "html2pdf.js";
+import { generateDiet } from "../../components/gemini/geminiConfig";
 
 
 export default function PacienteDetalhes() {
@@ -20,6 +21,8 @@ export default function PacienteDetalhes() {
   const [dietaSalva, setDietaSalva] = useState<Record<string, string[]> | null>(null);
   const [editandoDieta, setEditandoDieta] = useState(false);
   const [notasNutricionista, setNotasNutricionista] = useState<string>("");
+  const [isGeneratingDiet, setIsGeneratingDiet] = useState(false);
+  const [caloriasDieta, setCaloriasDieta] = useState<string>("");
 
   const habilitarEdicaoAnamnese = () => {
     setEditandoAnamnese(true);
@@ -270,6 +273,7 @@ export default function PacienteDetalhes() {
         pacienteId,
         dieta: dietaGerada,
         dataGeracao: new Date(),
+        caloriasDieta: caloriasDieta || null
       });
       console.log("Dieta salva com sucesso no Firebase!");
     } catch (error) {
@@ -278,32 +282,70 @@ export default function PacienteDetalhes() {
     }
   };
 
-  const gerarDietaComBase = () => {
-    if (!anamnese) return;
-    const intoleranteLactose = anamnese.temIntolerancia === "sim" && anamnese.temIntoleranciaTexto?.toLowerCase().includes("lactose");
-    const praticaExercicio = anamnese.atividadeFisica === "sim";
-
-    const tipo = intoleranteLactose ? "semLactose" : praticaExercicio ? "atleta" : "base";
-
-    const novaDieta: Record<string, Record<string, string[]>> = {};
-    for (const refeicao of Object.keys(alimentos)) {
-      const refeicaoFormatada = refeicao
-        .replace("cafeDaManha", "Café da Manhã")
-        .replace("lancheDaManha", "Lanche da Manhã")
-        .replace("almoco", "Almoço")
-        .replace("lancheDaTarde", "Lanche da Tarde")
-        .replace("jantar", "Jantar")
-        .replace("ceia", "Ceia");
-      novaDieta[refeicaoFormatada] = {};
-      diasSemana.forEach((dia) => {
-        const opcoes = alimentos[refeicao as keyof typeof alimentos][tipo];
-        const escolha = opcoes[Math.floor(Math.random() * opcoes.length)];
-        novaDieta[refeicaoFormatada][dia] = [escolha];
-      });
+  const gerarDietaComBase = async () => {
+    if (!anamnese) {
+      alert('É necessário ter uma anamnese cadastrada para gerar a dieta.');
+      return;
     }
-    setDietaGerada(novaDieta);
-    console.log("Chamando salvarDietaNoFirebase...", novaDieta);
-    salvarDietaNoFirebase(novaDieta); 
+    
+    setIsGeneratingDiet(true);
+    try {
+      console.log('Iniciando geração de dieta...');
+      const dietaGeradaTexto = await generateDiet(anamnese, caloriasDieta);
+      
+      if (!dietaGeradaTexto) {
+        throw new Error('Não foi possível gerar o texto da dieta');
+      }
+      
+      console.log('Texto da dieta gerado:', dietaGeradaTexto);
+      
+      const linhas = dietaGeradaTexto.split('\n');
+      const novaDieta: Record<string, Record<string, string[]>> = {};
+      let refeicaoAtual = '';
+      
+      for (const linha of linhas) {
+        if (linha.trim() === '') continue;
+        
+        // Check if this is a meal header
+        if (linha.includes('Café da Manhã') || 
+            linha.includes('Lanche da Manhã') || 
+            linha.includes('Almoço') || 
+            linha.includes('Lanche da Tarde') || 
+            linha.includes('Jantar') || 
+            linha.includes('Ceia')) {
+          refeicaoAtual = linha.trim();
+          novaDieta[refeicaoAtual] = {};
+          continue;
+        }
+        
+        // Check if this is a day header
+        if (diasSemana.some(dia => linha.includes(dia))) {
+          const dia = diasSemana.find(d => linha.includes(d));
+          if (dia && refeicaoAtual) {
+            novaDieta[refeicaoAtual][dia] = [linha.replace(dia, '').trim()];
+          }
+        }
+      }
+      
+      console.log('Dieta estruturada:', novaDieta);
+      setDietaGerada(novaDieta);
+      
+      // Salvar a dieta no Firebase
+      await salvarDietaNoFirebase(novaDieta);
+      
+      // Atualizar as calorias no documento do paciente
+      if (caloriasDieta) {
+        const pacienteRef = doc(db, "pacientes", pacienteId!);
+        await updateDoc(pacienteRef, { caloriasDieta });
+      }
+      
+      alert('Dieta gerada e salva com sucesso!');
+    } catch (error) {
+      console.error('Erro ao gerar dieta:', error);
+      alert('Erro ao gerar dieta. Por favor, tente novamente.');
+    } finally {
+      setIsGeneratingDiet(false);
+    }
   };
 
   const atualizarDieta = (refeicao: string, dia: string, novoValor: string) => {
@@ -420,25 +462,58 @@ export default function PacienteDetalhes() {
   }
 };
 
+  const salvarCaloriasDieta = async () => {
+    if (!pacienteId) return;
+
+    const pacienteRef = doc(db, "pacientes", pacienteId);
+
+    try {
+      await updateDoc(pacienteRef, { caloriasDieta });
+      console.log("Calorias da dieta salvas com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar calorias da dieta:", error);
+      alert("Erro ao salvar as calorias da dieta.");
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('Iniciando carregamento de dados...');
+      console.log('ID do paciente:', pacienteId);
+
       const pacienteQuery = query(collection(db, "pacientes"), where("pacienteId", "==", pacienteId));
       const pacienteSnapshot = await getDocs(pacienteQuery);
       if (!pacienteSnapshot.empty) {
-        setPaciente(pacienteSnapshot.docs[0].data());
+        const pacienteData = pacienteSnapshot.docs[0].data();
+        setPaciente(pacienteData);
+        // Carregar as calorias da dieta se existirem
+        if (pacienteData.caloriasDieta) {
+          setCaloriasDieta(pacienteData.caloriasDieta);
+          console.log('Calorias da dieta carregadas:', pacienteData.caloriasDieta);
+        }
+        console.log('Dados do paciente carregados:', pacienteData);
+      } else {
+        console.log('Nenhum paciente encontrado com o ID:', pacienteId);
       }
 
       const anamneseQuery = query(collection(db, "anamneses"), where("pacienteId", "==", pacienteId));
       const anamneseSnapshot = await getDocs(anamneseQuery);
       if (!anamneseSnapshot.empty) {
-        setAnamnese(anamneseSnapshot.docs[0].data().respostas);
+        const anamneseData = anamneseSnapshot.docs[0].data().respostas;
+        setAnamnese(anamneseData);
+        console.log('Anamnese carregada:', anamneseData);
+      } else {
+        console.log('Nenhuma anamnese encontrada para o paciente:', pacienteId);
       }
 
       const dietaRef = doc(db, "dietas", pacienteId!);
       const dietaSnap = await getDoc(dietaRef);
       if (dietaSnap.exists()) {
-        setDietaSalva(dietaSnap.data().dieta);
+        const dietaData = dietaSnap.data().dieta;
+        setDietaSalva(dietaData);
+        console.log('Dieta salva carregada:', dietaData);
+      } else {
+        console.log('Nenhuma dieta salva encontrada para o paciente:', pacienteId);
       }
     };
 
@@ -520,12 +595,65 @@ export default function PacienteDetalhes() {
 
           <div className="card-info">
             <h3>Gerar Dieta</h3>
-            <p>Com base nos dados da anamnese, este plano alimentar foi estruturado para atender às necessidades individuais do paciente, considerando seus objetivos, nível de atividade física e indicadores nutricionais.</p>
+            <p style={{textAlign:"center"}}>Com base nos dados da anamnese, este plano alimentar foi estruturado para atender às necessidades individuais do paciente, considerando seus objetivos, nível de atividade física e indicadores nutricionais.</p>
             <div style={{textAlign:"center"}}>
-              <button onClick={gerarDietaComBase} className="botao-gerar-dieta">Gerar Dieta Baseada na Anamnese</button>
+              <button 
+                onClick={gerarDietaComBase} 
+                className="botao-gerar-dieta"
+                disabled={isGeneratingDiet}
+              >
+                {isGeneratingDiet ? 'Gerando Dieta...' : anamnese ? 'Gerar Dieta Baseada na Anamnese' : 'Aguardando Anamnese...'}
+              </button>
+              {!anamnese && (
+                <p style={{ color: '#666', marginTop: '10px', fontSize: '14px' }}>
+                  É necessário ter uma anamnese cadastrada para gerar a dieta.
+                </p>
+              )}
             </div>
           </div>
           
+          <div className="card-info">
+            <h3>Calorias da Dieta</h3>
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '15px', 
+              height: '100%',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ 
+                  marginBottom: '25px'
+                }}>
+                  {caloriasDieta ? 'Calorias atuais: ' + caloriasDieta + ' kcal' : 'Insira aqui a quantidade de kcal por dia da dieta do seu paciente'}
+                </p>
+                <input
+                  type="number"
+                  value={caloriasDieta}
+                  onChange={(e) => setCaloriasDieta(e.target.value)}
+                  placeholder="Digite as calorias da dieta"
+                  style={{ 
+                    padding: '10px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    width: '80%',
+                    maxWidth: '300px',
+                    fontSize: '16px',
+                    textAlign: 'center'
+                  }}
+                />
+              </div>
+              <div style={{ width: '100%', textAlign: 'center' }}>
+                <button 
+                  onClick={salvarCaloriasDieta} 
+                  className="botao-gerar-dieta"
+                  style={{ width: '80%', maxWidth: '300px' }}
+                >
+                  {caloriasDieta ? 'Atualizar Calorias' : 'Salvar Calorias'}
+                </button>
+              </div>
+            </div>
+          </div>
 
           <div className="card-info">
             <h3>Observações</h3>
