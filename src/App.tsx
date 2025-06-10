@@ -15,6 +15,7 @@ import PacienteDetalhes from "./pages/paciente_detalhes/paciente_detalhes";
 import ReceitasList from "./pages/biblioteca_paciente/biblioteca_paciente";
 import ReceitasListNutri from "./pages/biblioteca_nutri/biblioteca_nutri";
 import Agenda from "./pages/agenda/agenda";
+import IAInformativo from "./pages/ia_informativo/ia_informativo";
 
 export default function App() {
 
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/biblioteca_paciente" element={<ReceitasList />} />
           <Route path="/biblioteca_nutri" element={<ReceitasListNutri />} />
           <Route path="/agenda" element={<Agenda />} />
+          <Route path="/ia_informativo" element={<IAInformativo />} />
         </Routes>
     </Router>
   );

@@ -44,7 +44,7 @@ export default function PerfilNutricionista() {
             <img src={pacientesIcon} alt="Minha Dieta" />
             <span>Pacientes</span>
           </Link>
-          <Link to="/ia_paciente" className="card">
+          <Link to="/ia_informativo" className="card">
             <img src={iaIcon} alt="IA" />
             <span>IA</span>
           </Link>
