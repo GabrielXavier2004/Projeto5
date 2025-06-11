@@ -8,10 +8,8 @@ export async function generateDiet(anamnese: any, caloriasDieta?: string) {
   
 Dados Pessoais:
 - Idade: ${anamnese.idade}
-- Sexo: ${anamnese.sexo}
 - Peso: ${anamnese.peso} kg
 - Altura: ${anamnese.altura} cm
-- IMC: ${anamnese.imc}
 
 Histórico de Saúde:
 - Alergias: ${anamnese.temAlergia === "sim" ? anamnese.temAlergiaTexto : "Não"}

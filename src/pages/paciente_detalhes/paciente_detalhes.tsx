@@ -34,21 +34,33 @@ export default function PacienteDetalhes() {
 
 
   const salvarDietaNoFirebase = async (dieta: Record<string, Record<string, string[]>>) => {
-    if (!pacienteId || !dietaGerada) return;
+    if (!pacienteId) {
+      console.error("ID do paciente não encontrado");
+      return;
+    }
 
     const dietaRef = doc(db, "dietas", pacienteId);
     
     try {
-      await setDoc(dietaRef, {
+      const dadosDieta = {
         pacienteId,
-        dieta: dietaGerada,
+        dieta: dieta,
         dataGeracao: new Date(),
-        caloriasDieta: caloriasDieta || null
-      });
+        caloriasDieta: caloriasDieta || "2000"
+      };
+
+      console.log("Tentando salvar dieta:", dadosDieta);
+      
+      await setDoc(dietaRef, dadosDieta);
+      
+      // Atualizar o estado local
+      setDietaGerada(dieta);
+      
       console.log("Dieta salva com sucesso no Firebase!");
+      alert("Dieta salva com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar dieta no Firebase:", error);
-      alert("Erro ao salvar a dieta no Firebase.");
+      alert("Erro ao salvar a dieta. Por favor, tente novamente.");
     }
   };
 
@@ -71,34 +83,47 @@ export default function PacienteDetalhes() {
       
       const linhas = dietaGeradaTexto.split('\n');
       const novaDieta: Record<string, Record<string, string[]>> = {};
+      
+      // Inicializar a estrutura da dieta
+      ordemRefeicoes.forEach(refeicao => {
+        novaDieta[refeicao] = {};
+        diasSemana.forEach(dia => {
+          novaDieta[refeicao][dia] = [];
+        });
+      });
+
       let refeicaoAtual = '';
+      let diaAtual = '';
       
       for (const linha of linhas) {
-        if (linha.trim() === '') continue;
+        const linhaLimpa = linha.trim();
+        if (linhaLimpa === '') continue;
         
-        // Check if this is a meal header
-        if (linha.includes('Café da Manhã') || 
-            linha.includes('Lanche da Manhã') || 
-            linha.includes('Almoço') || 
-            linha.includes('Lanche da Tarde') || 
-            linha.includes('Jantar') || 
-            linha.includes('Ceia')) {
-          refeicaoAtual = linha.trim();
-          novaDieta[refeicaoAtual] = {};
+        // Verificar se é uma refeição
+        const refeicaoEncontrada = ordemRefeicoes.find(ref => linhaLimpa.includes(ref));
+        if (refeicaoEncontrada) {
+          refeicaoAtual = refeicaoEncontrada;
           continue;
         }
         
-        // Check if this is a day header
-        if (diasSemana.some(dia => linha.includes(dia))) {
-          const dia = diasSemana.find(d => linha.includes(d));
-          if (dia && refeicaoAtual) {
-            novaDieta[refeicaoAtual][dia] = [linha.replace(dia, '').trim()];
+        // Verificar se é um dia da semana
+        const diaEncontrado = diasSemana.find(dia => linhaLimpa.includes(dia));
+        if (diaEncontrado) {
+          diaAtual = diaEncontrado;
+          const conteudo = linhaLimpa.replace(diaEncontrado, '').trim();
+          if (refeicaoAtual && conteudo) {
+            novaDieta[refeicaoAtual][diaAtual] = [conteudo];
           }
+          continue;
+        }
+        
+        // Se não é nem refeição nem dia, e temos refeição e dia atuais, adicionar como item
+        if (refeicaoAtual && diaAtual && linhaLimpa) {
+          novaDieta[refeicaoAtual][diaAtual].push(linhaLimpa);
         }
       }
       
       console.log('Dieta estruturada:', novaDieta);
-      setDietaGerada(novaDieta);
       
       // Salvar a dieta no Firebase
       await salvarDietaNoFirebase(novaDieta);
@@ -109,7 +134,6 @@ export default function PacienteDetalhes() {
         await updateDoc(pacienteRef, { caloriasDieta });
       }
       
-      alert('Dieta gerada e salva com sucesso!');
     } catch (error) {
       console.error('Erro ao gerar dieta:', error);
       alert('Erro ao gerar dieta. Por favor, tente novamente.');
