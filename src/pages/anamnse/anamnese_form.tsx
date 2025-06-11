@@ -147,6 +147,7 @@ export default function AnamneseForm() {
             onChange={handleChange}
             value={formData[`${name}Texto`] || ""}
             rows={3}
+            placeholder="Por favor, forneça mais detalhes..."
           />
         </>
       )}
@@ -194,15 +195,49 @@ export default function AnamneseForm() {
         return (
           <div className="form-etapa">
             <label className="form-label">Motivo da consulta:</label>
-            <textarea className="form-textarea" name="motivoConsulta" onChange={handleChange} value={formData["motivoConsulta"] || ""} rows={3} />
+            <textarea 
+              className="form-textarea" 
+              name="motivoConsulta" 
+              onChange={handleChange} 
+              value={formData["motivoConsulta"] || ""} 
+              rows={3}
+              placeholder="Descreva o motivo principal que te trouxe à consulta nutricional..."
+            />
             <label className="form-label">Principais queixas ou sintomas:</label>
-            <textarea className="form-textarea" name="queixas" onChange={handleChange} value={formData["queixas"] || ""} rows={3} />
+            <textarea 
+              className="form-textarea" 
+              name="queixas" 
+              onChange={handleChange} 
+              value={formData["queixas"] || ""} 
+              rows={3}
+              placeholder="Liste suas principais queixas ou sintomas atuais..."
+            />
             <label className="form-label">Doenças diagnosticadas:</label>
-            <textarea className="form-textarea" name="doencas" onChange={handleChange} value={formData["doencas"] || ""} rows={3} />
+            <textarea 
+              className="form-textarea" 
+              name="doencas" 
+              onChange={handleChange} 
+              value={formData["doencas"] || ""} 
+              rows={3}
+              placeholder="Liste as doenças que você foi diagnosticado(a)..."
+            />
             <label className="form-label">Profissão:</label>
-            <input className="form-input" name="profissao" onChange={handleChange} value={formData["profissao"] || ""} />
+            <input 
+              className="form-input" 
+              name="profissao" 
+              onChange={handleChange} 
+              value={formData["profissao"] || ""} 
+              placeholder="Sua profissão atual"
+            />
             <label className="form-label">Cirurgias realizadas:</label>
-            <textarea className="form-textarea" name="cirurgias" onChange={handleChange} value={formData["cirurgias"] || ""} rows={3} />
+            <textarea 
+              className="form-textarea" 
+              name="cirurgias" 
+              onChange={handleChange} 
+              value={formData["cirurgias"] || ""} 
+              rows={3}
+              placeholder="Liste as cirurgias que você já realizou, se houver..."
+            />
             {renderSimNao("Você possui alguma alergia?", "temAlergia", "Se sim, quais?")}
             {renderSimNao("Você faz uso de medicamentos ou suplementos?", "usaMedicamentos", "Se sim, quais?")}
             {renderSimNao("Você faz uso recorrente de antibióticos?", "usaAntibioticos", "Se sim, com que frequência?")}
@@ -217,11 +252,31 @@ export default function AnamneseForm() {
             {renderSimNao("Você fuma?", "fuma", "Se sim, com que frequência?")}
             {renderSimNao("Você consome bebida alcoólica?", "bebe", "Se sim, com que frequência?")}
             <label className="form-label">Qualidade do sono:</label>
-            <textarea className="form-textarea" name="sono" onChange={handleChange} value={formData["sono"] || ""} rows={4} />
+            <textarea 
+              className="form-textarea" 
+              name="sono" 
+              onChange={handleChange} 
+              value={formData["sono"] || ""} 
+              rows={4}
+              placeholder="Descreva como é a qualidade do seu sono, se tem dificuldade para dormir, se acorda durante a noite..."
+            />
             <label className="form-label">Horas de sono por noite:</label>
-            <input className="form-input" name="horasSono" onChange={handleChange} value={formData["horasSono"] || ""} />
+            <input 
+              className="form-input" 
+              name="horasSono" 
+              onChange={handleChange} 
+              value={formData["horasSono"] || ""} 
+              placeholder="Exemplo: 8 horas"
+            />
             <label className="form-label">Horários em que costuma dormir e acordar:</label>
-            <textarea className="form-textarea" name="horarioSono" onChange={handleChange} value={formData["horarioSono"] || ""} rows={3} />
+            <textarea 
+              className="form-textarea" 
+              name="horarioSono" 
+              onChange={handleChange} 
+              value={formData["horarioSono"] || ""} 
+              rows={3}
+              placeholder="Exemplo: Durmo às 23h e acordo às 7h"
+            />
           </div>
         );
 
@@ -233,7 +288,14 @@ export default function AnamneseForm() {
             {renderSimNao("Você tem dificuldades com a digestão?", "digestao", "Se sim, descreva:")}
             {renderSimNao("Você tem problemas intestinais?", "intestino", "Se sim, descreva:")}
             <label className="form-label">Como estão suas fezes?</label>
-            <textarea className="form-textarea" name="fezes" onChange={handleChange} value={formData["fezes"] || ""} rows={3} />
+            <textarea 
+              className="form-textarea" 
+              name="fezes" 
+              onChange={handleChange} 
+              value={formData["fezes"] || ""} 
+              rows={3}
+              placeholder="Descreva a consistência, frequência e outras características relevantes..."
+            />
           </div>
         );
 
@@ -241,7 +303,14 @@ export default function AnamneseForm() {
         return (
           <div className="form-etapa">
             <label className="form-label">Descreva a frequência de consumo de alimentos:</label>
-            <textarea className="form-textarea" name="frequenciaAlimentar" onChange={handleChange} value={formData["frequenciaAlimentar"] || ""} rows={3} />
+            <textarea 
+              className="form-textarea" 
+              name="frequenciaAlimentar" 
+              onChange={handleChange} 
+              value={formData["frequenciaAlimentar"] || ""} 
+              rows={3}
+              placeholder="Descreva quais alimentos você costuma consumir e com qual frequência (diariamente, semanalmente, etc)..."
+            />
           </div>
         );
 
